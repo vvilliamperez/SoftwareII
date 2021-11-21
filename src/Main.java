@@ -11,7 +11,7 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("./views/loginscreen.fxml"));
         Parent root = loader.load();
         primaryStage.setTitle("Login or Sign up");
-        primaryStage.setScene(new Scene(root, 400, 250));
+        primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
 
