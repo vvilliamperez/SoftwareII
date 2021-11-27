@@ -2,48 +2,48 @@ package controllers;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import models.Session;
 
 public class loginscreen {
     @FXML
-    private TextField username;
+    private TextField tfUsername;
 
     @FXML
-    private TextField password;
+    private TextField tfPassword;
 
     @FXML
-    private Button btnLogin;
+    private Text textLocale;
 
     @FXML
-    private Button btnSignUp;
+    private Button btnConnect;
 
-    
     @FXML
     public void initialize(){
-
         Session session = new Session() ;
 
-        btnLogin.setOnAction(new EventHandler<ActionEvent>() {
+        tfUsername.setPromptText(session.getString("unamePrompt"));
+        tfPassword.setPromptText(session.getString("passPrompt"));
+        textLocale.setText(session.getString("locale"));
+
+
+        btnConnect.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                //boolean loginSucceeded = session.Login(username.getText(), password.getText());
-
-               /* if (loginSucceeded) {
-
-                } else {*/
-
+                try {
+                    session.logUserIn(tfUsername.getText(), tfPassword.getText());
+                } catch (Exception e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                    alert.show();
+                    e.printStackTrace();
+                }
 
             }
         });
 
-        btnSignUp.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-
-            }
-        });
     }
 
 }

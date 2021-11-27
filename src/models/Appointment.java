@@ -5,24 +5,66 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Appointment {
-    private LocalDateTime time;
-    private String location;
-    private String title;
-    private String notes;
+    private LocalDateTime timeStart;
+    private LocalDateTime timeEnd;
+
+    private String title, description, location, type;
+    private int CustID, UserID, ContactID;
 
 
-    public Appointment(LocalDateTime time, String title) {
-        this.time = time;
-        this.title = title;
+    public String getType() {
+        return type;
     }
 
-    public Appointment(LocalDateTime time, String location, String title, String notes) {
-        this.time = time;
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
         this.location = location;
-        this.title = title;
-        this.notes = notes;
     }
 
+    public String getTitle() {
+        return title;
+    }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
+    public int getCustID() {
+        return CustID;
+    }
+
+    public void setCustID(int custID) {
+        CustID = custID;
+    }
+
+    public int getUserID() {
+        return UserID;
+    }
+
+    public void setUserID(int userID) {
+        UserID = userID;
+    }
+
+    public int getContactID() {
+        return ContactID;
+    }
+
+    public void setContactID(int contactID) {
+        ContactID = contactID;
+    }
 }

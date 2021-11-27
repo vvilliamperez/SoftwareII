@@ -5,35 +5,40 @@ import javafx.collections.ObservableList;
 public class User {
 
     private ObservableList<Appointment> appointments;
-    private boolean queuedUpdate = false;
 
     private int UID;
+    private String username, password;
 
     public User(int UID){
         this.UID = UID;
-        //syncAppointments();
     }
 
-
+    public User(int UID, String username, String password){
+        this.UID = UID;
+        this.username = username;
+        this.password = password;
+    }
 
 
     public void addAppointment(Appointment a){
         appointments.add(a);
     }
 
-    public boolean removeAppointment(Appointment a){
+    public void removeAppointment(Appointment a){
         try {
             appointments.remove(a);
-            return true;
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
         }
     }
-    public boolean updateAppointment(Appointment old, Appointment updated){
+
+    public void updateAppointment(Appointment old, Appointment updated){
         removeAppointment(old);
         addAppointment(updated);
-        return true;
+    }
+
+    public boolean passwordVerified(String input){
+        return input.equals(password);
     }
 
 }

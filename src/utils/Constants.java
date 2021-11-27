@@ -1,9 +1,9 @@
 package utils;
 
 public class Constants {
-    public final String url = "jdbc:mysql://wgudb.ucertify.com:3306/";
-    public final String databaseName = "U07sUI";
-    public final String user = "U07sUI";
-    public final String pass = "53689121946";
-    public final String driver = "com.mysql.jdbc.Driver";
+    public final String url = "jdbc:mysql://127.0.0.1:3306/";
+    public final String databaseName = "client_schedule";
+    public final String user = "sqlUser";
+    public final String pass = "Passw0rd!";
+    public final String driver = "com.mysql.cj.jdbc.Driver";
 }
