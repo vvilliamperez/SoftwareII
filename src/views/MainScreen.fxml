@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright (c) 2015, 2019, Gluon and/or its affiliates.
+  All rights reserved. Use is subject to license terms.
+
+  This file is available and licensed under the following license:
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions
+  are met:
+
+  - Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+  - Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in
+    the documentation and/or other materials provided with the distribution.
+  - Neither the name of Oracle Corporation nor the names of its
+    contributors may be used to endorse or promote products derived
+    from this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox prefHeight="971.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainScreen">
+  <children>
+      <AnchorPane prefHeight="129.0" prefWidth="1024.0">
+         <children>
+            <Label fx:id="titleSection1" alignment="CENTER" layoutX="14.0" layoutY="14.0" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="Scheduler" textAlignment="CENTER" wrapText="false">
+               <font>
+                  <Font size="18.0" fx:id="x1" />
+               </font>
+               <textFill>
+                  <Color red="0.624" green="0.624" blue="0.624" fx:id="x2" />
+               </textFill>
+            </Label>
+            <Text fx:id="timeclock" layoutX="467.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="12:00">
+               <font>
+                  <Font size="49.0" />
+               </font>
+            </Text>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </AnchorPane>
+      <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="573.0" prefWidth="1163.0">
+         <children>
+            <Label fx:id="titleSection2" alignment="CENTER" layoutX="14.0" layoutY="14.0" style="&#10;" text="Appointments" textAlignment="CENTER" wrapText="false">
+               <font>
+                  <Font size="18.0" fx:id="x5" />
+               </font>
+               <textFill>
+                  <Color red="0.624" green="0.624" blue="0.624" fx:id="x6" />
+               </textFill>
+            </Label>
+            <TableView fx:id="tableApts" layoutX="247.0" layoutY="41.0" prefHeight="532.0" prefWidth="763.0">
+               <columns>
+                  <TableColumn fx:id="colAptId" prefWidth="52.0" text="ID" />
+                  <TableColumn fx:id="colTitle" prefWidth="98.0" text="Title" />
+                  <TableColumn fx:id="colDesc" prefWidth="112.0" text="Description" />
+                  <TableColumn fx:id="colLocation" minWidth="0.0" prefWidth="76.0" text="Location" />
+                  <TableColumn fx:id="colContact" prefWidth="71.0" text="Contact" />
+                  <TableColumn fx:id="colType" prefWidth="78.0" text="Type" />
+                  <TableColumn fx:id="colStart" prefWidth="60.0" text="Start" />
+                  <TableColumn fx:id="colEnd" prefWidth="75.0" text="End" />
+                  <TableColumn fx:id="colCustID" prefWidth="78.0" text="Customer ID" />
+                  <TableColumn fx:id="colUserId" prefWidth="50.0" text="User ID" />
+               </columns>
+            </TableView>
+            <RadioButton fx:id="radioBtnWeekly" layoutX="134.0" layoutY="207.0" mnemonicParsing="false" text="Weekly" />
+            <RadioButton fx:id="radioBtnMonthly" layoutX="131.0" layoutY="238.0" mnemonicParsing="false" text="Monthly" />
+            <Button fx:id="btnNewApt" layoutX="96.0" layoutY="70.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="136.0" text="New Appointment" />
+            <Button fx:id="btnEditApt" disable="true" layoutX="96.0" layoutY="107.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="136.0" text="Edit Appointment" />
+            <Button fx:id="btnDelApt" disable="true" layoutX="96.0" layoutY="145.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="136.0" text="Delete Appointment" textFill="#c90000" />
+         </children>
+      </AnchorPane>
+      <AnchorPane prefHeight="287.0" prefWidth="1024.0">
+         <children>
+            <Label fx:id="titleSection3" alignment="CENTER" layoutX="49.0" layoutY="1.0" style="&#10;" text="Customers" textAlignment="CENTER" wrapText="false">
+               <font>
+                  <Font size="18.0" fx:id="x51" />
+               </font>
+               <textFill>
+                  <Color red="0.624" green="0.624" blue="0.624" fx:id="x61" />
+               </textFill>
+            </Label>
+            <TableView fx:id="tableCustomers" layoutX="246.0" layoutY="21.0" prefHeight="200.0" prefWidth="763.0">
+               <columns>
+                  <TableColumn fx:id="col2Id" prefWidth="191.0" text="ID" />
+                  <TableColumn fx:id="col2Name" prefWidth="92.0" text="Name" />
+                  <TableColumn fx:id="col2Address" minWidth="9.0" prefWidth="254.0" text="Address" />
+                  <TableColumn fx:id="col2Postal" minWidth="9.0" prefWidth="159.0" text="Postal Code" />
+                  <TableColumn fx:id="col2Phone" minWidth="9.0" prefWidth="159.0" text="Phone" />
+                  <TableColumn fx:id="col2Division" prefWidth="61.0" text="Division" />
+               </columns>
+            </TableView>
+            <Button fx:id="btnEditCustomer" disable="true" layoutX="123.0" layoutY="83.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="113.0" text="Edit Customer" />
+            <Button fx:id="btnNewCustomer" layoutX="123.0" layoutY="50.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="113.0" text="New Customer" />
+            <Button fx:id="btnDeleteCustomer" disable="true" layoutX="123.0" layoutY="194.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="113.0" text="Delete Customer" textFill="#d00000" />
+         </children>
+      </AnchorPane>
+    <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="NEVER">
+      <children>
+        <Label fx:id="textLocale" maxHeight="1.7976931348623157E308" maxWidth="-1.0" text="Locale" HBox.hgrow="ALWAYS">
+          <font>
+            <Font size="11.0" fx:id="x3" />
+          </font>
+          <textFill>
+            <Color red="0.625" green="0.625" blue="0.625" fx:id="x4" />
+          </textFill>
+        </Label>
+        <Pane prefHeight="-1.0" prefWidth="-1.0" HBox.hgrow="ALWAYS" />
+        <Label fx:id="textStatus" font="$x3" maxWidth="-1.0" text="Status: DISCONNECTED" textFill="$x4" HBox.hgrow="NEVER" />
+      </children>
+      <padding>
+        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+      </padding>
+    </HBox>
+  </children>
+</VBox>
