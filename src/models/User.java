@@ -41,4 +41,7 @@ public class User {
         return input.equals(password);
     }
 
+    public int getUID() {
+        return UID;
+    }
 }

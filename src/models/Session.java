@@ -13,8 +13,8 @@ import java.util.ResourceBundle;
  */
 public class Session {
     private final Constants strings = new Constants();
-    private static User currentUser;
-    public ResourceBundle lStrings;
+    private User currentUser;
+    private ResourceBundle lStrings;
 
     public Session(){
         setLocale();
@@ -22,8 +22,8 @@ public class Session {
 
 
     private void setLocale(){
-        System.out.println(Locale.getDefault());
         System.out.println("Setting Language");
+        System.out.println(Locale.getDefault());
         lStrings = ResourceBundle.getBundle("localization/rb");
     }
 
@@ -33,12 +33,16 @@ public class Session {
         return lStrings.getString(key);
     }
 
+    public User getCurrentUser() {
+        return currentUser;
+    }
 
     //User Login/Logout
     public void logUserIn(String user, String pass) throws Exception {
         currentUser = UserDaoImpl.getUser(user);
         if (currentUser == null || !currentUser.passwordVerified(pass)){
             currentUser = null;
+            //TODO: translation for each language
             throw new Exception("Bad Username / Password");
         }
     }
@@ -47,6 +51,9 @@ public class Session {
         currentUser = null;
         return true;
     }
+
+
+
 
 
 }

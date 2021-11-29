@@ -1,6 +1,7 @@
 package models;
 
 import javax.sound.sampled.FloatControl;
+import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -9,62 +10,58 @@ public class Appointment {
     private LocalDateTime timeEnd;
 
     private String title, description, location, type;
-    private int CustID, UserID, ContactID;
+    private int apptID, custID, userID, contactID;
+    private Time start, end;
 
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
+    public Appointment(int apptID, String title, String desc, String location, String type, int userID, int custID, int contactID) {
+        this.apptID = apptID;
+        this.title = title;
+        this.description = desc;
         this.location = location;
+        this.type = type;
+        this.userID = userID;
+        this.custID = custID;
+        this.contactID = contactID;
+    }
+
+
+    public int getID() {
+        return apptID;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public String getDescription() {
+        return description;
     }
 
-    public int getCustID() {
-        return CustID;
+    public String getLocation() {
+        return location;
     }
 
-    public void setCustID(int custID) {
-        CustID = custID;
+    public String getType() {
+        return type;
     }
 
-    public int getUserID() {
-        return UserID;
+    public Time getStart() {
+        return start;
     }
 
-    public void setUserID(int userID) {
-        UserID = userID;
+    public Time getEnd() {
+        return end;
     }
 
-    public int getContactID() {
-        return ContactID;
+    public Integer getCustID() {
+        return custID;
     }
 
-    public void setContactID(int contactID) {
-        ContactID = contactID;
+    public Integer getUserID() {
+        return userID;
+    }
+
+    public int getContact() {
+        return contactID;
     }
 }
