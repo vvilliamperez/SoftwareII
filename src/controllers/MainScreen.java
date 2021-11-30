@@ -2,14 +2,12 @@ package controllers;
 
 import DAO.ApptDaoImpl;
 import DAO.CustDaoImpl;
-import javafx.beans.property.ReadOnlyIntegerWrapper;
+import javafx.beans.binding.StringBinding;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.util.Callback;
 import models.Appointment;
 import models.Customer;
 import models.Session;
@@ -17,7 +15,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+import java.sql.SQLException;
 import java.sql.Time;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 
 public class MainScreen extends BasicScreen {
 
@@ -145,14 +147,12 @@ public class MainScreen extends BasicScreen {
     private ObservableList<Customer> customers;
 
 
-
     @Override
     public void update() {
         setLocale();
 
-        int userID = currentSession.getCurrentUser().getUID();
         try {
-            appointments = ApptDaoImpl.getAppoitmentsByUserID(userID);
+            appointments = ApptDaoImpl.getAppoitmentsByUser(currentSession.getCurrentUser());
             tableApts.setItems(appointments);
         } catch (Exception e) {
             e.printStackTrace();
@@ -216,10 +216,13 @@ public class MainScreen extends BasicScreen {
         colTitle.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getTitle()));
         colDesc.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getDescription()));
         colLocation.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getLocation()));
-        colContact.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getContact()));
+        colContact.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getContactID()));
         colType.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getType()));
         colCustID.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getCustID()));
         colUserId.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getUserID()));
+
+        colStart.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper(cellData.getValue().getLdtStart().atZone(ZoneId.systemDefault())));
+        colEnd.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper(cellData.getValue().getLdtEnd().atZone(ZoneId.systemDefault())));
 
         col2Id.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getID()));
         col2Name.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getName()));
@@ -229,7 +232,68 @@ public class MainScreen extends BasicScreen {
         col2Division.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getDivision()));
     }
 
+
+
     private void setListeners() {
+
+        btnEditApt.setOnAction(actionEvent -> {
+           currentSession.setCurrentAppointment(tableApts.getSelectionModel().getSelectedItem());
+           openWindow("AppointmentScreen");
+        });
+
+        btnNewApt.setOnAction(actionEvent -> {
+            currentSession.setCurrentAppointment(null);
+            openWindow("AppointmentScreen");
+        });
+
+        btnDelApt.setOnAction(actionEvent -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.showAndWait();
+            if (alert.getResult().equals(ButtonType.OK)){
+                try {
+                    ApptDaoImpl.delete(tableApts.getSelectionModel().getSelectedItem());
+                    update();
+                    alert = new Alert(Alert.AlertType.INFORMATION, currentSession.getString("deletionSuccessful"));
+                    alert.showAndWait();
+                }
+                catch (SQLException e) {
+                    alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                    alert.showAndWait();
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+
+        btnEditCustomer.setOnAction(actionEvent -> {
+            currentSession.setCurrentCustomer(tableCustomers.getSelectionModel().getSelectedItem());
+            openWindow("CustomerScreen");
+        });
+
+        btnNewCustomer.setOnAction(actionEvent -> {
+            currentSession.setCurrentCustomer(null);
+            openWindow("CustomerScreen");
+        });
+
+        btnDeleteCustomer.setOnAction(actionEvent -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.showAndWait();
+            if (alert.getResult().equals(ButtonType.OK)){
+                try {
+                    CustDaoImpl.delete(tableCustomers.getSelectionModel().getSelectedItem());
+                    update();
+                    alert = new Alert(Alert.AlertType.INFORMATION, currentSession.getString("deletionSuccessful"));
+                    alert.showAndWait();
+                } catch (SQLException e) {
+                    alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                    alert.showAndWait();
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
 
     }
 

@@ -13,7 +13,6 @@ import java.sql.SQLException;
 // TODO: CHANGE CODE
 public class UserDaoImpl {
     public static User getUser(String userName) throws SQLException {
-        // type is name or phone, value is the name or the phone #
         DBConnection.makeConnection();
         String sqlStatement="select * FROM users WHERE User_Name  = '" + userName+ "'";
         //  String sqlStatement="select FROM address";

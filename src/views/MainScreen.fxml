@@ -58,7 +58,7 @@
                   <Color red="0.624" green="0.624" blue="0.624" fx:id="x2" />
                </textFill>
             </Label>
-            <Text fx:id="timeclock" layoutX="467.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="12:00">
+            <Text fx:id="timeclock" layoutX="467.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scheduler">
                <font>
                   <Font size="49.0" />
                </font>
@@ -95,8 +95,8 @@
             <RadioButton fx:id="radioBtnWeekly" layoutX="134.0" layoutY="207.0" mnemonicParsing="false" text="Weekly" />
             <RadioButton fx:id="radioBtnMonthly" layoutX="131.0" layoutY="238.0" mnemonicParsing="false" text="Monthly" />
             <Button fx:id="btnNewApt" layoutX="96.0" layoutY="70.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="136.0" text="New Appointment" />
-            <Button fx:id="btnEditApt" disable="true" layoutX="96.0" layoutY="107.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="136.0" text="Edit Appointment" />
-            <Button fx:id="btnDelApt" disable="true" layoutX="96.0" layoutY="145.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="136.0" text="Delete Appointment" textFill="#c90000" />
+            <Button fx:id="btnEditApt" layoutX="96.0" layoutY="107.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="136.0" text="Edit Appointment" />
+            <Button fx:id="btnDelApt" layoutX="96.0" layoutY="145.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="136.0" text="Delete Appointment" textFill="#c90000" />
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="287.0" prefWidth="1024.0">
@@ -119,9 +119,9 @@
                   <TableColumn fx:id="col2Division" prefWidth="61.0" text="Division" />
                </columns>
             </TableView>
-            <Button fx:id="btnEditCustomer" disable="true" layoutX="123.0" layoutY="83.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="113.0" text="Edit Customer" />
+            <Button fx:id="btnEditCustomer" layoutX="123.0" layoutY="83.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="113.0" text="Edit Customer" />
             <Button fx:id="btnNewCustomer" layoutX="123.0" layoutY="50.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="113.0" text="New Customer" />
-            <Button fx:id="btnDeleteCustomer" disable="true" layoutX="123.0" layoutY="194.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="113.0" text="Delete Customer" textFill="#d00000" />
+            <Button fx:id="btnDeleteCustomer" layoutX="123.0" layoutY="194.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="113.0" text="Delete Customer" textFill="#d00000" />
          </children>
       </AnchorPane>
     <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="NEVER">

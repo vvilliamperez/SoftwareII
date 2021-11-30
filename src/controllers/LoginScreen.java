@@ -48,6 +48,7 @@ public class LoginScreen extends BasicScreen {
 
     protected void setLocale() {
         Session s = currentSession;
+        primaryStage.setTitle(s.getString("loginTitle"));
         tfUsername.setPromptText(s.getString("unamePrompt"));
         tfPassword.setPromptText(s.getString("passPrompt"));
         textLocale.setText(s.getString("locale"));

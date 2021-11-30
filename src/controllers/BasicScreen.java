@@ -1,10 +1,10 @@
 package controllers;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import models.Session;
 import java.io.IOException;
 
@@ -30,10 +30,12 @@ public abstract class BasicScreen {
             BasicScreen screenController = loader.getController();
             screenController.initData(primaryStage, currentSession);
             Stage newWindow = new Stage();
+            newWindow.addEventFilter(WindowEvent.ANY, e-> this.update() );
             newWindow.setScene(new Scene(root));
             newWindow.initOwner(primaryStage);
             newWindow.initModality(Modality.WINDOW_MODAL);
             newWindow.show();
+
 
         } catch (IOException e) {
             e.printStackTrace();

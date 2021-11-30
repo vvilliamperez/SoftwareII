@@ -1,19 +1,18 @@
 package models;
 
-import javax.sound.sampled.FloatControl;
-import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 public class Appointment {
-    private LocalDateTime timeStart;
-    private LocalDateTime timeEnd;
+    private Timestamp timeStart, timeEnd;
+    private LocalDateTime ldtStart, ldtEnd;
+
 
     private String title, description, location, type;
     private int apptID, custID, userID, contactID;
-    private Time start, end;
 
-    public Appointment(int apptID, String title, String desc, String location, String type, int userID, int custID, int contactID) {
+    public Appointment(int apptID, String title, String desc, String location, String type, Timestamp timeStart, Timestamp timeEnd, int custID, int userID,  int contactID) {
         this.apptID = apptID;
         this.title = title;
         this.description = desc;
@@ -22,6 +21,10 @@ public class Appointment {
         this.userID = userID;
         this.custID = custID;
         this.contactID = contactID;
+        this.timeStart = timeStart;
+        this.timeEnd = timeEnd;
+        this.ldtStart = this.timeStart.toLocalDateTime();
+        this.ldtEnd = this.timeEnd.toLocalDateTime();
     }
 
 
@@ -45,12 +48,12 @@ public class Appointment {
         return type;
     }
 
-    public Time getStart() {
-        return start;
+    public Timestamp getTimeStart() {
+        return timeStart;
     }
 
-    public Time getEnd() {
-        return end;
+    public Timestamp getTimeEnd() {
+        return timeEnd;
     }
 
     public Integer getCustID() {
@@ -61,7 +64,15 @@ public class Appointment {
         return userID;
     }
 
-    public int getContact() {
+    public int getContactID() {
         return contactID;
+    }
+
+    public LocalDateTime getLdtStart() {
+        return ldtStart;
+    }
+
+    public LocalDateTime getLdtEnd() {
+        return ldtEnd;
     }
 }

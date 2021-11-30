@@ -14,6 +14,8 @@ import java.util.ResourceBundle;
 public class Session {
     private final Constants strings = new Constants();
     private User currentUser;
+    private Customer currentCustomer;
+    private Appointment currentAppointment;
     private ResourceBundle lStrings;
 
     public Session(){
@@ -43,7 +45,7 @@ public class Session {
         if (currentUser == null || !currentUser.passwordVerified(pass)){
             currentUser = null;
             //TODO: translation for each language
-            throw new Exception("Bad Username / Password");
+            throw new Exception(getString("authErrorMessage"));
         }
     }
 
@@ -53,7 +55,19 @@ public class Session {
     }
 
 
+    public Customer getCurrentCustomer() {
+        return currentCustomer;
+    }
 
+    public void setCurrentCustomer(Customer currentCustomer) {
+        this.currentCustomer = currentCustomer;
+    }
 
+    public Appointment getCurrentAppointment() {
+        return currentAppointment;
+    }
 
+    public void setCurrentAppointment(Appointment currentAppointment) {
+        this.currentAppointment = currentAppointment;
+    }
 }
