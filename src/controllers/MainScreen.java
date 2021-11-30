@@ -17,9 +17,9 @@ import javafx.scene.text.Text;
 
 import java.sql.SQLException;
 import java.sql.Time;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
+import java.time.*;
+import java.time.chrono.ChronoLocalDateTime;
+import java.util.function.Predicate;
 
 public class MainScreen extends BasicScreen {
 
@@ -111,6 +111,12 @@ public class MainScreen extends BasicScreen {
     private Text timeclock;
 
     @FXML
+    private Button btnNext;
+
+    @FXML
+    private Button btnPrev;
+
+    @FXML
     private Label titleSection1;
 
     @FXML
@@ -141,19 +147,44 @@ public class MainScreen extends BasicScreen {
     private Color x6;
 
     @FXML
+    private Text textOffset;
+
+    @FXML
     private Color x61;
 
     private ObservableList<Appointment> appointments;
     private ObservableList<Customer> customers;
+
+    private int dateOffset = 0;
+
+    private boolean checkedOnLogin = false;
+
 
 
     @Override
     public void update() {
         setLocale();
 
+        textOffset.setText(String.valueOf(dateOffset));
+        ZonedDateTime today = LocalDateTime.now().atZone(ZoneId.of("UTC"));
+        ZonedDateTime datePointer;
+        if (radioBtnWeekly.isSelected()){
+            datePointer = today.plusWeeks(dateOffset-1);
+        } else {
+            datePointer = today.plusMonths(dateOffset-1);
+        }
+        ZonedDateTime nextWeek = datePointer.plusWeeks(1);
+        ZonedDateTime nextMonth = datePointer.plusMonths(1);
+
+
         try {
             appointments = ApptDaoImpl.getAppoitmentsByUser(currentSession.getCurrentUser());
-            tableApts.setItems(appointments);
+            if (radioBtnWeekly.isSelected()){
+                tableApts.setItems(appointments.filtered(e -> e.getLdtStart().isAfter(ChronoLocalDateTime.from(datePointer)) && e.getLdtStart().isBefore(ChronoLocalDateTime.from(nextWeek))));
+            } else {
+                tableApts.setItems(appointments.filtered(e -> e.getLdtStart().isAfter(ChronoLocalDateTime.from(datePointer)) && e.getLdtStart().isBefore(ChronoLocalDateTime.from(nextMonth))));
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -164,7 +195,42 @@ public class MainScreen extends BasicScreen {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        if (!checkedOnLogin){
+            checkAlarm();
+            checkedOnLogin = true;
+        }
+
     }
+
+    private void checkAlarm() {
+
+        ZonedDateTime today = LocalDateTime.now().atZone(ZoneId.of("UTC"));
+
+        ZonedDateTime datePointer;
+        if (radioBtnWeekly.isSelected()){
+            datePointer = today.plusWeeks(dateOffset-1);
+        } else {
+            datePointer = today.plusMonths(dateOffset-1);
+        }
+        System.out.println(today);
+        System.out.println(datePointer);
+        boolean alarmed = false;
+        for (Appointment e: appointments){
+            System.out.println(e.getLdtStart());
+            if (e.getLdtStart().isAfter(ChronoLocalDateTime.from(today)) && e.getLdtStart().isBefore(ChronoLocalDateTime.from(today.plusMinutes(15)))){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, currentSession.getString("alarmText") + "\n\n"
+                        + String.valueOf(e.getID()) + "\n" + e.getTimeStart().toString() );
+                alert.showAndWait();
+                alarmed = true;
+            }
+        }
+        if (!alarmed) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, currentSession.getString("noAppointments"));
+            alert.showAndWait();
+        }
+    }
+
 
     @Override
     protected void setLocale() {
@@ -209,6 +275,8 @@ public class MainScreen extends BasicScreen {
     public void initialize(){
         setListeners();
         setFactories();
+        radioBtnWeekly.setSelected(true);
+        radioBtnMonthly.setSelected(false);
     }
 
     private void setFactories() {
@@ -235,6 +303,28 @@ public class MainScreen extends BasicScreen {
 
 
     private void setListeners() {
+
+        btnNext.setOnAction(e -> {
+            dateOffset++;
+            update();
+        });
+
+        btnPrev.setOnAction(e -> {
+            dateOffset--;
+            update();
+        });
+
+        radioBtnMonthly.setOnAction(e -> {
+            radioBtnMonthly.setSelected(true);
+            radioBtnWeekly.setSelected(false);
+            update();
+        });
+
+        radioBtnWeekly.setOnAction(e -> {
+            radioBtnWeekly.setSelected(true);
+            radioBtnMonthly.setSelected(false);
+            update();
+        });
 
         btnEditApt.setOnAction(actionEvent -> {
            currentSession.setCurrentAppointment(tableApts.getSelectionModel().getSelectedItem());

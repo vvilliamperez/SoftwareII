@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import models.Country;
 import models.Customer;
 import models.Division;
+import models.Session;
 
 import java.sql.SQLException;
 
@@ -134,6 +135,7 @@ public class CustomerScreen extends BasicScreen {
     public void update() {
         this.currentCustomer = currentSession.getCurrentCustomer();
         if (currentCustomer != null) populateCustomerData();
+        setLocale();
     }
 
     private void populateCustomerData() {
@@ -164,6 +166,17 @@ public class CustomerScreen extends BasicScreen {
 
     @Override
     protected void setLocale() {
+        Session s = currentSession;
+        titleSection.setText(s.getString("customer"));
+        tfName.setPromptText(s.getString("name"));
+        tfAddress.setPromptText(s.getString("address"));
+        cmbCountry.setPromptText(s.getString("country"));
+        cmbState.setPromptText(s.getString("state"));
+        tfPostal.setPromptText(s.getString("postal"));
+        tfPhone.setPromptText(s.getString("phoneNumber"));
+        btnConfirm.setText(s.getString("submit"));
+        tfCustID.setPromptText(s.getString("customer")+ " " + s.getString("ID"));
+
 
     }
 }

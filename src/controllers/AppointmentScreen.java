@@ -12,6 +12,8 @@ import javafx.stage.Stage;
 import models.Appointment;
 import models.Contact;
 import models.Customer;
+import models.Session;
+
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -76,6 +78,8 @@ public class AppointmentScreen extends BasicScreen {
 
     @FXML
     private Color x2;
+
+
     private Appointment currentApt;
 
     ObservableList<String> hours = FXCollections.observableArrayList();
@@ -89,6 +93,8 @@ public class AppointmentScreen extends BasicScreen {
     public void initialize(){
         fillTimeSlots();
         setListeners();
+
+
     }
 
     private void setListeners() {
@@ -109,6 +115,10 @@ public class AppointmentScreen extends BasicScreen {
             Stage stage = (Stage) btnCancel.getScene().getWindow();
             stage.close();
         });
+
+
+
+
     }
 
     private void sendToDatabase() {
@@ -215,6 +225,7 @@ public class AppointmentScreen extends BasicScreen {
         getCustomerIDData();
         getContactData();
         if (currentApt != null) populateAptData();
+        setLocale();
     }
 
     private void populateAptData() {
@@ -231,10 +242,16 @@ public class AppointmentScreen extends BasicScreen {
 
         dateStart.setValue(dateTimeStart.toLocalDate());
         dateEnd.setValue(dateTimeEnd.toLocalDate());
-        cmbStartHr.getSelectionModel().select(dateTimeStart.getHour());
-        cmbStartMin.getSelectionModel().select(dateTimeStart.getMinute());
-        cmbEndHr.getSelectionModel().select(dateTimeEnd.getHour());
-        cmbEndMin.getSelectionModel().select(dateTimeEnd.getMinute());
+        String starthr, startmin, endhr, endmin;
+        starthr = String.format("%02d", dateTimeStart.getHour());
+        startmin = String.format("%02d", dateTimeStart.getMinute());
+        endhr = String.format("%02d", dateTimeEnd.getHour());
+        endmin = String.format("%02d", dateTimeEnd.getMinute());
+
+        cmbStartHr.getSelectionModel().select(starthr);
+        cmbStartMin.getSelectionModel().select(startmin);
+        cmbEndHr.getSelectionModel().select(endhr);
+        cmbEndMin.getSelectionModel().select(endmin);
 
         int custID = apt.getCustID();
         String custName = customers.filtered(c -> c.getID() == custID).get(0).getName();
@@ -249,6 +266,21 @@ public class AppointmentScreen extends BasicScreen {
 
     @Override
     protected void setLocale() {
+        Session s = currentSession;
+        titleSection.setText(s.getString("appointment"));
+        tfTitle.setPromptText(s.getString("title"));
+        tfLocation.setPromptText(s.getString("location"));
+        tfType.setPromptText(s.getString("type"));
+        fcDescription.setPromptText(s.getString("description"));
+        tfApptID.setPromptText(s.getString("appointment") + " " + s.getString("ID"));
+        tfUserID.setPromptText(s.getString("user") + " " + s.getString("ID"));
+        dateStart.setPromptText(s.getString("start"));
+        dateEnd.setPromptText(s.getString("end"));
+        cmbContact.setPromptText(s.getString("contact"));
+        cmbCustomerID.setPromptText(s.getString("customer"));
+        btnCancel.setText(s.getString("cancel"));
+        btnConfirm.setText(s.getString("submit"));
+
 
     }
 }

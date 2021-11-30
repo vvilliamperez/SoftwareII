@@ -97,6 +97,9 @@
             <Button fx:id="btnNewApt" layoutX="96.0" layoutY="70.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="136.0" text="New Appointment" />
             <Button fx:id="btnEditApt" layoutX="96.0" layoutY="107.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="136.0" text="Edit Appointment" />
             <Button fx:id="btnDelApt" layoutX="96.0" layoutY="145.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="136.0" text="Delete Appointment" textFill="#c90000" />
+            <Button fx:id="btnNext" layoutX="180.0" layoutY="274.0" mnemonicParsing="false" text="Next" />
+            <Button fx:id="btnPrev" layoutX="101.0" layoutY="274.0" mnemonicParsing="false" text="Prev" />
+            <Text fx:id="textOffset" layoutX="161.0" layoutY="291.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" />
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="287.0" prefWidth="1024.0">
