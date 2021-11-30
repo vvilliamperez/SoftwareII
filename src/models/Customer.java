@@ -1,6 +1,8 @@
 package models;
 import javafx.beans.value.ObservableValue;
-
+/**
+ * Class for Customer objects
+ */
 public class Customer {
     private int ID, division;
     private String name, address, phone, postal;

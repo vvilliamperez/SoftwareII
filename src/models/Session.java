@@ -5,11 +5,11 @@ import utils.Constants;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-/*
-    Session Class
-
-    Holds all data related to a login session
-    Handles login/logout, manipulating current calendar, and locale
+/**
+ * Class for Session object
+ * holds the logged in user as well as the currently editing appointment or customer
+ * holds the resource bundle for localization
+ * provides a methods to retrieve localized strings
  */
 public class Session {
     private final Constants strings = new Constants();

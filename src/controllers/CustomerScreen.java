@@ -19,6 +19,11 @@ import models.Session;
 
 import java.sql.SQLException;
 
+/**
+ * Class for the Customer Screen
+ * Handles all the customer updates and additions
+ * Autopopulates fields and sets locale
+ */
 public class CustomerScreen extends BasicScreen {
 
     @FXML

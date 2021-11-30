@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * User is read only, no create update or delete
+ * DAO class for User
  */
 // TODO: CHANGE CODE
 public class UserDaoImpl {

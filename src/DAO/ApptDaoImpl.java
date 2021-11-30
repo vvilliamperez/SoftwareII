@@ -13,7 +13,9 @@ import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-
+/**
+ * DAO class for Appointments
+ */
 public class ApptDaoImpl {
     public static void create(Appointment apt) throws SQLException {
         DBConnection.makeConnection();

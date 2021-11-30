@@ -9,7 +9,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import models.Session;
 
-
+/**
+ * Class for the Login Screen
+ * Handles username and password verification
+ */
 public class LoginScreen extends BasicScreen {
     @FXML
     private TextField tfUsername;

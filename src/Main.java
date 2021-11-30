@@ -6,7 +6,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import models.Session;
-
+/**
+ * Appointment System - APTSYS
+ * Runs in English and French
+ */
 public class Main extends Application {
 
     @Override

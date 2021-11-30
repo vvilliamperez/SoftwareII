@@ -1,5 +1,7 @@
 package models;
-
+/**
+ * Class for Division objects
+ */
 public class Division {
 
     private int id, country_id;

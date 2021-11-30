@@ -1,7 +1,9 @@
 package models;
 
 import javafx.collections.ObservableList;
-
+/**
+ * Class for User objects
+ */
 public class User {
 
     private ObservableList<Appointment> appointments;

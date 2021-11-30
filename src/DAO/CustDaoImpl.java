@@ -8,7 +8,9 @@ import models.Customer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
+/**
+ * DAO class for Customers
+ */
 public class CustDaoImpl {
     public static ObservableList<Customer> getAllCustomers() throws SQLException {
         DBConnection.makeConnection();

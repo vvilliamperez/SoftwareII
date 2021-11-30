@@ -20,6 +20,11 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
+/**
+ * Class for the Appointment Screen
+ * Handles all the appointment updates and additions
+ * Autopopulates fields and sets locale
+ */
 public class AppointmentScreen extends BasicScreen {
 
     @FXML

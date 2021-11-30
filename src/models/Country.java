@@ -1,5 +1,7 @@
 package models;
-
+/**
+ * Class for Countries
+ */
 public class Country {
 
     private int id;

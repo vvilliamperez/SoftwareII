@@ -7,20 +7,8 @@ import java.sql.ResultSet;
 import static DAO.DBConnection.conn;
 
 /**
- * Project: DAODemo2021
- * Package: sample.DAO
- * <p>
- * User: carolyn.sher
- * Date: 9/15/2021
- * Time: 9:53 AM
- * <p>
- * Created with IntelliJ IDEA
- * To change this template use File | Settings | File Templates.
+ * Query class to perform SQL queries and retrieve resultSets
  */
-
-
-
-// TODO: CHANGE CODE
 public class Query {
     private static String query;
     private static Statement stmt;

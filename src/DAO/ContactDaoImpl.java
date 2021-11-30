@@ -5,7 +5,9 @@ import models.Contact;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+/**
+ * DAO class for Contacts
+ */
 public class ContactDaoImpl {
     public static ObservableList<Contact> getAllContacts() throws SQLException {
         ObservableList<Contact> contacts = FXCollections.observableArrayList();

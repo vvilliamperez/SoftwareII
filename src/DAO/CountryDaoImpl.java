@@ -5,7 +5,9 @@ import javafx.collections.ObservableList;
 import models.Country;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+/**
+ * DAO class for Countries
+ */
 public class CountryDaoImpl {
     public static ObservableList<Country> getAllCountries() throws SQLException {
         ObservableList<Country> countries = FXCollections.observableArrayList();

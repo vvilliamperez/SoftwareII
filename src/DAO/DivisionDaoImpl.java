@@ -6,6 +6,9 @@ import models.Division;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * DAO class for Divisions
+ */
 public class DivisionDaoImpl {
     public static ObservableList<Division> getAllDivisions() throws SQLException {
         ObservableList<Division> divisions = FXCollections.observableArrayList();

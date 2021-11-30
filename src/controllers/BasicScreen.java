@@ -8,6 +8,13 @@ import javafx.stage.WindowEvent;
 import models.Session;
 import java.io.IOException;
 
+
+/**
+ * Abstract class for screens to prevent code duplication
+ * passes data using initData() by sending PrimaryStage and session object
+ * requires use of an Update() method
+ * handles opening new windows based on a String.
+ */
 public abstract class BasicScreen {
 
     protected Stage primaryStage;

@@ -4,6 +4,10 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
+
+/**
+ * Class for Appointments
+ */
 public class Appointment {
     private Timestamp timeStart, timeEnd;
     private LocalDateTime ldtStart, ldtEnd;

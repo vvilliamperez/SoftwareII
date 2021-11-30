@@ -20,7 +20,11 @@ import java.sql.Time;
 import java.time.*;
 import java.time.chrono.ChronoLocalDateTime;
 import java.util.function.Predicate;
-
+/**
+ * Class for the Main Screen
+ * Displays appointmens by weekly or monthly selections in a table to select and edit or delete
+ * Displays customers in a separate table to select and edit or delete
+ */
 public class MainScreen extends BasicScreen {
 
     @FXML
