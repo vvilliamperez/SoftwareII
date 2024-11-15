@@ -48,7 +48,7 @@ public class DivisionDaoImpl {
     }
 
     public static List<Division> getDivisionsByCountryName(String countryName) throws SQLException{
-        String sqlStatement = "SELECT Country_ID from Countries WHERE Country LIKE '" + countryName + "'";
+        String sqlStatement = "SELECT Country_ID from countries WHERE Country LIKE '" + countryName + "'";
         DBConnection.makeConnection();
         Query.makeQuery(sqlStatement);
         Query.getResult().next();

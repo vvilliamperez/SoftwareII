@@ -123,7 +123,7 @@ public class CustomerScreen extends BasicScreen {
     private void getDivisionData(String countryName) {
         try {
             List<Division> divisionsListData = DivisionDaoImpl.getDivisionsByCountryName(countryName);
-            divisionsList = FXCollections.observableArrayList();
+            divisionsList = FXCollections.observableArrayList(divisionsListData);
         } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
             alert.show();
