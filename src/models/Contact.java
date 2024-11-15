@@ -18,6 +18,10 @@ public class Contact {
         return name;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public int getID() {
         return contactID;
     }

@@ -33,6 +33,7 @@ public class LoginScreen extends BasicScreen {
             try {
                 currentSession.logUserIn(tfUsername.getText(), tfPassword.getText());
                 openWindow("MainScreen");
+                this.update();
             } catch (Exception e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
                 alert.show();

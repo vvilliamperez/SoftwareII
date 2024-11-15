@@ -4,6 +4,7 @@ import DAO.AppointmentDaoImpl;
 import DAO.CustomerDaoImpl;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -18,6 +19,7 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.time.*;
 import java.time.chrono.ChronoLocalDateTime;
+import java.util.List;
 
 /**
  * Class for the Main Screen
@@ -181,7 +183,8 @@ public class MainScreen extends BasicScreen {
 
 
         try {
-            appointments = AppointmentDaoImpl.getAppoitmentsByUser(currentSession.getCurrentUser());
+            List<Appointment> appointmentList = AppointmentDaoImpl.getAppoitmentsByUser(currentSession.getCurrentUser());
+            appointments = FXCollections.observableArrayList(appointmentList);
             if (radioBtnWeekly.isSelected()){
                 tableApts.setItems(appointments.filtered(e -> e.getLdtStart().isAfter(ChronoLocalDateTime.from(datePointer)) && e.getLdtStart().isBefore(ChronoLocalDateTime.from(nextWeek))));
             } else {
@@ -193,7 +196,8 @@ public class MainScreen extends BasicScreen {
         }
 
         try {
-            customers = CustomerDaoImpl.getAllCustomers();
+            List<Customer> customers_data = CustomerDaoImpl.getAllCustomers();
+            customers = FXCollections.observableArrayList(customers_data);
             tableCustomers.setItems(customers);
         } catch (Exception e) {
             e.printStackTrace();

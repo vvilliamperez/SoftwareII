@@ -9,6 +9,8 @@ import models.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * DAO class for Appointments
@@ -62,8 +64,8 @@ public class AppointmentDaoImpl {
     }
 
 
-    public static ObservableList<Appointment> getAppoitmentsByUser(User user) throws SQLException {
-        ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+    public static List<Appointment> getAppoitmentsByUser(User user) throws SQLException {
+        List<Appointment> appointments = new ArrayList<Appointment>();
         DBConnection.makeConnection();
         int UserID = user.getUID();
         String sqlStatement="select * FROM appointments where User_ID = " + UserID;
@@ -88,8 +90,8 @@ public class AppointmentDaoImpl {
         return appointments;
     }
 
-    public static ObservableList<Appointment> getAppointmentsByCustomer(Customer customer) throws SQLException {
-        ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+    public static List<Appointment> getAppointmentsByCustomer(Customer customer) throws SQLException {
+        List<Appointment> appointments = new ArrayList<Appointment>();
         DBConnection.makeConnection();
         int ID = customer.getID();
         String sqlStatement="select * FROM appointments where Customer_ID = " + ID;
@@ -141,7 +143,7 @@ public class AppointmentDaoImpl {
         return null;
     }
 
-    public static void deleteMany(ObservableList<Appointment> appointments) throws SQLException {
+    public static void deleteMany(List<Appointment> appointments) throws SQLException {
         String IDs = "";
         for (Appointment appointment : appointments) {
             IDs += "Appointment_ID LIKE " + String.valueOf(appointment.getID()) + " OR ";

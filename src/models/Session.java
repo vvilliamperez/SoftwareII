@@ -16,7 +16,7 @@ public class Session {
     private User currentUser;
     private Customer currentCustomer;
     private Appointment currentAppointment;
-    private ResourceBundle lStrings;
+    private ResourceBundle localeStrings;
 
     public Session(){
         setLocale();
@@ -26,13 +26,13 @@ public class Session {
     private void setLocale(){
         System.out.println("Setting Language");
         System.out.println(Locale.getDefault());
-        lStrings = ResourceBundle.getBundle("localization/rb");
+        localeStrings = ResourceBundle.getBundle("localization/rb");
     }
 
     public String getString(String key){
         //Passthrough function for less verbosity
         //Gets strings from resource bundle
-        return lStrings.getString(key);
+        return localeStrings.getString(key);
     }
 
     public User getCurrentUser() {
@@ -41,7 +41,7 @@ public class Session {
 
     //User Login/Logout
     public void logUserIn(String user, String pass) throws Exception {
-        currentUser = UserDaoImpl.getUser(user);
+        currentUser = UserDaoImpl.getUserByUserName(user);
         if (currentUser == null || !currentUser.passwordVerified(pass)){
             currentUser = null;
             //TODO: translation for each language

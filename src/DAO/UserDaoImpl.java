@@ -1,7 +1,5 @@
 package DAO;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import models.User;
 
 import java.sql.ResultSet;
@@ -12,7 +10,7 @@ import java.sql.SQLException;
  */
 // TODO: CHANGE CODE
 public class UserDaoImpl {
-    public static User getUser(String userName) throws SQLException {
+    public static User getUserByUserName(String userName) throws SQLException {
         DBConnection.makeConnection();
         String sqlStatement="select * FROM users WHERE User_Name  = '" + userName+ "'";
         //  String sqlStatement="select FROM address";

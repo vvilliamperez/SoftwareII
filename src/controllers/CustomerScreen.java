@@ -18,6 +18,7 @@ import models.Division;
 import models.Session;
 
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Class for the Customer Screen
@@ -121,7 +122,8 @@ public class CustomerScreen extends BasicScreen {
 
     private void getDivisionData(String countryName) {
         try {
-            divisionsList = DivisionDaoImpl.getDivisionsByCountryName(countryName);
+            List<Division> divisionsListData = DivisionDaoImpl.getDivisionsByCountryName(countryName);
+            divisionsList = FXCollections.observableArrayList();
         } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
             alert.show();
@@ -156,7 +158,8 @@ public class CustomerScreen extends BasicScreen {
 
     private void getLocationData() {
         try {
-            countriesList = CountryDaoImpl.getAllCountries();
+            List<Country> countriesListData = CountryDaoImpl.getAllCountries();
+            countriesList = FXCollections.observableArrayList();
             countriesStrings = FXCollections.observableArrayList();
             for (Country country: countriesList){
                 countriesStrings.add(country.getCountry());

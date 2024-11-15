@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 /**
  * Class for the Appointment Screen
@@ -183,7 +184,8 @@ public class AppointmentScreen extends BasicScreen {
 
     private void getCustomerIDData() {
         try {
-            customers = CustomerDaoImpl.getAllCustomers();
+            List<Customer> customersData = CustomerDaoImpl.getAllCustomers();
+            customers = FXCollections.observableArrayList(customersData);
             for (Customer customer: customers){
                 customerStrings.add(customer.getName());
             }
@@ -197,7 +199,8 @@ public class AppointmentScreen extends BasicScreen {
 
     private void getContactData() {
         try {
-            contacts = ContactDaoImpl.getAllContacts();
+            List<Contact> contactsData = ContactDaoImpl.getAllContacts();
+            contacts = FXCollections.observableArrayList(contactsData);
             for (Contact contact: contacts){
                 contactStrings.add(contact.getName());
             }

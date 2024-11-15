@@ -5,12 +5,15 @@ import models.Contact;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * DAO class for Contacts
  */
 public class ContactDaoImpl {
-    public static ObservableList<Contact> getAllContacts() throws SQLException {
-        ObservableList<Contact> contacts = FXCollections.observableArrayList();
+    public static List<Contact> getAllContacts() throws SQLException {
+        List<Contact> contacts = new ArrayList<Contact>();
         DBConnection.makeConnection();
         String sqlStatement = "SELECT * FROM Contacts";
         Query.makeQuery(sqlStatement);

@@ -7,18 +7,20 @@ import models.Customer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * DAO class for Customers
  */
 public class CustomerDaoImpl {
-    public static ObservableList<Customer> getAllCustomers() throws SQLException {
+    public static List<Customer> getAllCustomers() throws SQLException {
         DBConnection.makeConnection();
         String sqlStatement="select * FROM customers";
         Query.makeQuery(sqlStatement);
         Customer customer;
         ResultSet result=Query.getResult();
-        ObservableList<Customer> customers = FXCollections.observableArrayList();
+        List<Customer> customers = new ArrayList<Customer>();
         while(result.next()){
             int custID = result.getInt("Customer_ID");
             String name = result.getString("Customer_Name");
@@ -71,9 +73,8 @@ public class CustomerDaoImpl {
 
     public static void delete(Customer customer) throws SQLException {
         //first delete any appointments with customer ID
-        ObservableList<Appointment> appointments = AppointmentDaoImpl.getAppointmentsByCustomer(customer);
-        if (!appointments.isEmpty())
-        AppointmentDaoImpl.deleteMany(appointments);
+        List<Appointment> appointments = AppointmentDaoImpl.getAppointmentsByCustomer(customer);
+        if (!appointments.isEmpty()) AppointmentDaoImpl.deleteMany(appointments);
         //Then delete Customer
         DBConnection.makeConnection();
         int ID = customer.getID();

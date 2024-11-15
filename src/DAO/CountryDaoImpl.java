@@ -5,12 +5,15 @@ import javafx.collections.ObservableList;
 import models.Country;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * DAO class for Countries
  */
 public class CountryDaoImpl {
-    public static ObservableList<Country> getAllCountries() throws SQLException {
-        ObservableList<Country> countries = FXCollections.observableArrayList();
+    public static List<Country> getAllCountries() throws SQLException {
+        List<Country> countries = new ArrayList<Country>();
         DBConnection.makeConnection();
         String sqlStatement = "SELECT * FROM Countries";
         Query.makeQuery(sqlStatement);
