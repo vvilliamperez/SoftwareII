@@ -8,7 +8,7 @@ This project is also submitted as an Objective Assessment for **Software II - Ad
 **William Perez**
 
 ## Contact
-Email: [wepere25@wgu.edu](mailto:wepere25@wgu.edu)
+Email: [wpere25@wgu.edu](mailto:wpere25@wgu.edu)
 
 ## Development Environment
 - **IDE**: IntelliJ IDEA 2021.2.1 (Ultimate Edition)  
