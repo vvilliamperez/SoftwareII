@@ -99,8 +99,6 @@ public class AppointmentScreen extends BasicScreen {
     public void initialize(){
         fillTimeSlots();
         setListeners();
-
-
     }
 
     private void setListeners() {
@@ -136,13 +134,13 @@ public class AppointmentScreen extends BasicScreen {
         String location = tfLocation.getText();
         String type = tfType.getText();
 
-        ZonedDateTime localDateTimeStart, localDateTimeEnd;
-        LocalDateTime serverDateTimeStart, serverDateTimeEnd;
-        localDateTimeStart = dateStart.getValue().atTime(Integer.parseInt(cmbStartHr.getValue()), Integer.parseInt(cmbStartMin.getValue())).atZone(ZoneId.systemDefault());
-        localDateTimeEnd = dateEnd.getValue().atTime(Integer.parseInt(cmbEndHr.getValue()), Integer.parseInt(cmbEndMin.getValue())).atZone(ZoneId.systemDefault());
 
-        serverDateTimeStart = localDateTimeStart.toLocalDateTime();
-        serverDateTimeEnd = localDateTimeEnd.toLocalDateTime();
+        // All writes to the database must be in UTC time
+        ZonedDateTime zonedDateTimeStart, zonedDateTimeEnd;
+        zonedDateTimeStart = dateStart.getValue().atTime(Integer.parseInt(cmbStartHr.getValue()), Integer.parseInt(cmbStartMin.getValue())).atZone(ZoneId.systemDefault());
+        zonedDateTimeEnd = dateEnd.getValue().atTime(Integer.parseInt(cmbEndHr.getValue()), Integer.parseInt(cmbEndMin.getValue())).atZone(ZoneId.systemDefault());
+        ZonedDateTime utcStart = zonedDateTimeStart.withZoneSameInstant(ZoneId.of("UTC"));
+        ZonedDateTime utcEnd = zonedDateTimeEnd.withZoneSameInstant(ZoneId.of("UTC"));
 
         int custID = customers.get(cmbCustomerID.getSelectionModel().getSelectedIndex()).getID();
         int contID = contacts.get(cmbContact.getSelectionModel().getSelectedIndex()).getID();
@@ -150,7 +148,7 @@ public class AppointmentScreen extends BasicScreen {
 
         Appointment appointment = new Appointment(
                 apptID,title,desc,location,type,
-                Timestamp.valueOf(serverDateTimeStart),Timestamp.valueOf(serverDateTimeEnd),
+                Timestamp.valueOf(utcStart.toLocalDateTime()),Timestamp.valueOf(utcEnd.toLocalDateTime()),
                 custID,userID,contID);
 
         try {
@@ -163,7 +161,6 @@ public class AppointmentScreen extends BasicScreen {
             alert.show();
             e.printStackTrace();
         }
-        return;
     }
 
     private boolean formFilled() {
@@ -245,8 +242,9 @@ public class AppointmentScreen extends BasicScreen {
         tfUserID.setText(String.valueOf(apt.getUserID()));
         fcDescription.setText(apt.getDescription());
 
-        ZonedDateTime dateTimeStart = apt.getLdtStart().atZone(ZoneId.systemDefault());
-        ZonedDateTime dateTimeEnd = apt.getLdtEnd().atZone(ZoneId.systemDefault());
+        // All reads from the database are in UTC time, convert to local time
+        ZonedDateTime dateTimeStart = apt.getTimeStart().toLocalDateTime().atZone(ZoneId.systemDefault());
+        ZonedDateTime dateTimeEnd = apt.getTimeEnd().toLocalDateTime().atZone(ZoneId.systemDefault());
 
         dateStart.setValue(dateTimeStart.toLocalDate());
         dateEnd.setValue(dateTimeEnd.toLocalDate());
@@ -271,6 +269,9 @@ public class AppointmentScreen extends BasicScreen {
 
 
     }
+
+
+
 
     @Override
     protected void setLocale() {

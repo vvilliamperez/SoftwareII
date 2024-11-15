@@ -186,9 +186,9 @@ public class MainScreen extends BasicScreen {
             List<Appointment> appointmentList = AppointmentDaoImpl.getAppoitmentsByUser(currentSession.getCurrentUser());
             appointments = FXCollections.observableArrayList(appointmentList);
             if (radioBtnWeekly.isSelected()){
-                tableApts.setItems(appointments.filtered(e -> e.getLdtStart().isAfter(ChronoLocalDateTime.from(datePointer)) && e.getLdtStart().isBefore(ChronoLocalDateTime.from(nextWeek))));
+                tableApts.setItems(appointments.filtered(e -> e.getZonedTimeEnd().toLocalDateTime().isAfter(ChronoLocalDateTime.from(datePointer)) && e.getZonedTimeStart().toLocalDateTime().isBefore(ChronoLocalDateTime.from(nextWeek))));
             } else {
-                tableApts.setItems(appointments.filtered(e -> e.getLdtStart().isAfter(ChronoLocalDateTime.from(datePointer)) && e.getLdtStart().isBefore(ChronoLocalDateTime.from(nextMonth))));
+                tableApts.setItems(appointments.filtered(e -> e.getZonedTimeStart().toLocalDateTime().isAfter(ChronoLocalDateTime.from(datePointer)) && e.getZonedTimeStart().toLocalDateTime().isBefore(ChronoLocalDateTime.from(nextMonth))));
             }
 
         } catch (Exception e) {
@@ -224,8 +224,8 @@ public class MainScreen extends BasicScreen {
         System.out.println(datePointer);
         boolean alarmed = false;
         for (Appointment e: appointments){
-            System.out.println(e.getLdtStart());
-            if (e.getLdtStart().isAfter(ChronoLocalDateTime.from(today)) && e.getLdtStart().isBefore(ChronoLocalDateTime.from(today.plusMinutes(15)))){
+            System.out.println(e.getZonedTimeStart().toLocalDateTime());
+            if (e.getZonedTimeStart().toLocalDateTime().isAfter(ChronoLocalDateTime.from(today)) && e.getZonedTimeStart().toLocalDateTime().isBefore(ChronoLocalDateTime.from(today.plusMinutes(15)))){
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, currentSession.getString("alarmText") + "\n\n"
                         + String.valueOf(e.getID()) + "\n" + e.getTimeStart().toString() );
                 alert.showAndWait();
@@ -296,8 +296,8 @@ public class MainScreen extends BasicScreen {
         colCustID.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getCustID()));
         colUserId.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getUserID()));
 
-        colStart.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper(cellData.getValue().getLdtStart().atZone(ZoneId.systemDefault())));
-        colEnd.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper(cellData.getValue().getLdtEnd().atZone(ZoneId.systemDefault())));
+        colStart.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper(cellData.getValue().getZonedTimeStart().toLocalDateTime().atZone(ZoneId.systemDefault())));
+        colEnd.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper(cellData.getValue().getZonedTimeEnd().toLocalDateTime().atZone(ZoneId.systemDefault())));
 
         col2Id.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getID()));
         col2Name.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getName()));

@@ -10,13 +10,11 @@ import java.time.ZonedDateTime;
  */
 public class Appointment {
     private Timestamp timeStart, timeEnd;
-    private LocalDateTime ldtStart, ldtEnd;
-
 
     private String title, description, location, type;
     private int apptID, custID, userID, contactID;
 
-    public Appointment(int apptID, String title, String desc, String location, String type, Timestamp timeStart, Timestamp timeEnd, int custID, int userID,  int contactID) {
+    public Appointment(int apptID, String title, String desc, String location, String type, Timestamp timeStart, Timestamp timeEnd, int custID, int userID, int contactID) {
         this.apptID = apptID;
         this.title = title;
         this.description = desc;
@@ -25,10 +23,9 @@ public class Appointment {
         this.userID = userID;
         this.custID = custID;
         this.contactID = contactID;
+        // Time is stored in UTC
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
-        this.ldtStart = this.timeStart.toLocalDateTime();
-        this.ldtEnd = this.timeEnd.toLocalDateTime();
     }
 
 
@@ -72,11 +69,14 @@ public class Appointment {
         return contactID;
     }
 
-    public LocalDateTime getLdtStart() {
-        return ldtStart;
+    public ZonedDateTime getZonedTimeStart() {
+        return timeStart.toLocalDateTime().atZone(java.time.ZoneId.systemDefault());
     }
 
-    public LocalDateTime getLdtEnd() {
-        return ldtEnd;
+    public ZonedDateTime getZonedTimeEnd() {
+        return timeEnd.toLocalDateTime().atZone(java.time.ZoneId.systemDefault());
     }
+
+
+
 }

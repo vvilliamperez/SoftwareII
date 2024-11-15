@@ -27,7 +27,7 @@ public class AppointmentDaoImpl {
         int custID = apt.getCustID();
         int userID = apt.getUserID();
         int contID = apt.getContactID();
-        String sqlStatement = "INSERT INTO Appointments (Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID) "
+        String sqlStatement = "INSERT INTO appointments (Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID) "
                             + "VALUES ('" + title + "', '" + desc + "', '" + location+ "', '" + type + "', '" + start
                             +  "', '" + end + "', '" + custID + "', '" + userID + "', '" + contID + "');";
         Query.makeQuery(sqlStatement);
@@ -46,7 +46,7 @@ public class AppointmentDaoImpl {
         int custID = apt.getCustID();
         int userID = apt.getUserID();
         int contID = apt.getContactID();
-        String sqlStatement = "UPDATE Appointments SET "
+        String sqlStatement = "UPDATE appointments SET "
                 + "Title = '" + title + "', "
                 + "Description = '" + desc + "', "
                 + "Location = '" + location + "', "
@@ -60,7 +60,6 @@ public class AppointmentDaoImpl {
         System.out.println(sqlStatement);
         Query.makeQuery(sqlStatement);
         DBConnection.closeConnection();
-        return;
     }
 
 
@@ -82,7 +81,6 @@ public class AppointmentDaoImpl {
             int contID = result.getInt("Contact_ID");
             Timestamp timeStart = result.getTimestamp("Start");
             Timestamp timeEnd = result.getTimestamp("End");
-            //TODO: TIME START AND END
             Appointment apptResult = new Appointment(apptID, title, desc, location, type, timeStart, timeEnd, userID,  custID, contID);
             appointments.add(apptResult);
         }
@@ -108,7 +106,6 @@ public class AppointmentDaoImpl {
             int contID = result.getInt("Contact_ID");
             Timestamp timeStart = result.getTimestamp("Start");
             Timestamp timeEnd = result.getTimestamp("End");
-            //TODO: TIME START AND END
             Appointment apptResult = new Appointment(apptID, title, desc, location, type, timeStart, timeEnd, userID,  custID, contID);
             appointments.add(apptResult);
         }
@@ -135,7 +132,6 @@ public class AppointmentDaoImpl {
             int contID = result.getInt("Contact_ID");
             Timestamp timeStart = result.getTimestamp("Start");
             Timestamp timeEnd = result.getTimestamp("End");
-            //TODO: TIME START AND END
             apptResult = new Appointment(apptID, title, desc, location, type, timeStart, timeEnd, userID,  custID, contID);
             return apptResult;
         }
@@ -149,7 +145,7 @@ public class AppointmentDaoImpl {
             IDs += "Appointment_ID LIKE " + String.valueOf(appointment.getID()) + " OR ";
         }
         IDs = IDs.substring(0, IDs.length() - 4 );
-        String sqlStatement = "DELETE FROM Appointments WHERE " + IDs;
+        String sqlStatement = "DELETE FROM appointments WHERE " + IDs;
         System.out.println(IDs);
 
         DBConnection.makeConnection();
@@ -158,7 +154,7 @@ public class AppointmentDaoImpl {
     }
 
     public static void delete(Appointment appointment) throws SQLException {
-        String sqlStatement = "DELETE FROM Appointments WHERE Appointment_ID = '" + appointment.getID() + "';";
+        String sqlStatement = "DELETE FROM appointments WHERE Appointment_ID = '" + appointment.getID() + "';";
         DBConnection.makeConnection();
         Query.makeQuery(sqlStatement);
         DBConnection.closeConnection();

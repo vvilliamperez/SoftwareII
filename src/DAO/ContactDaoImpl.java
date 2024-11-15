@@ -15,7 +15,7 @@ public class ContactDaoImpl {
     public static List<Contact> getAllContacts() throws SQLException {
         List<Contact> contacts = new ArrayList<Contact>();
         DBConnection.makeConnection();
-        String sqlStatement = "SELECT * FROM Contacts";
+        String sqlStatement = "SELECT * FROM contacts";
         Query.makeQuery(sqlStatement);
         ResultSet contResults = Query.getResult();
         while(contResults.next()){
