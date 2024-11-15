@@ -67,5 +67,18 @@ public class DivisionDaoImpl {
         return divisions;
 
     }
+
+    public static Division getDivisionByID(int ID) throws SQLException {
+        DBConnection.makeConnection();
+        String sqlStatement = "SELECT * FROM first_level_divisions WHERE Division_ID = " + String.valueOf(ID);
+        Query.makeQuery(sqlStatement);
+        Query.getResult().next();
+        int id = Query.getResult().getInt("Division_ID");
+        String divisionName = Query.getResult().getString("Division");
+        int countryId = Query.getResult().getInt("COUNTRY_ID");
+        Division division = new Division(id, divisionName, countryId);
+        DBConnection.closeConnection();
+        return division;
+    }
 }
 

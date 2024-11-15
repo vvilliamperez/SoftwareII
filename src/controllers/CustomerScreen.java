@@ -31,7 +31,7 @@ public class CustomerScreen extends BasicScreen {
     private ComboBox<String> cmbCountry;
 
     @FXML
-    private ComboBox<String> cmbState;
+    private ComboBox<String> cmbDivision;
 
     @FXML
     private TextField tfAddress;
@@ -96,7 +96,8 @@ public class CustomerScreen extends BasicScreen {
         int customerID = 9999;
         if (!tfCustID.getText().isEmpty())
             customerID = Integer.parseInt(tfCustID.getText());
-        int divID = divisionsList.get(cmbState.getSelectionModel().getSelectedIndex()).getID();
+
+        int divID = divisionsList.get(cmbDivision.getSelectionModel().getSelectedIndex()).getID();
 
         Customer customer = new Customer(customerID, name, addr, post, phone, divID);
         try {
@@ -117,7 +118,7 @@ public class CustomerScreen extends BasicScreen {
                 !tfPhone.getText().isEmpty() &&
                 !tfName.getText().isEmpty() &&
                 !cmbCountry.getSelectionModel().isEmpty() &&
-                !cmbState.getSelectionModel().isEmpty() );
+                !cmbDivision.getSelectionModel().isEmpty() );
     }
 
     private void getDivisionData(String countryName) {
@@ -133,8 +134,8 @@ public class CustomerScreen extends BasicScreen {
         for (Division division : divisionsList) {
             divisionStrings.add(division.getName());
         }
-        cmbState.setItems(divisionStrings);
-        cmbState.setDisable(false);
+        cmbDivision.setItems(divisionStrings);
+        cmbDivision.setDisable(false);
     }
 
 
@@ -154,6 +155,18 @@ public class CustomerScreen extends BasicScreen {
         tfPostal.setText(cc.getPostal());
 
         //Auto fill customer location data
+        try {
+            Division division = DivisionDaoImpl.getDivisionByID(cc.getDivision());
+            Country country = CountryDaoImpl.getCountryByID(division.getCountryID());
+            getLocationData();
+            cmbCountry.getSelectionModel().select(country.getName());
+            getDivisionData(country.getName());
+            cmbDivision.getSelectionModel().select(division.getName());
+        } catch (SQLException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+            alert.show();
+            e.printStackTrace();
+        }
     }
 
     private void getLocationData() {
@@ -179,7 +192,7 @@ public class CustomerScreen extends BasicScreen {
         tfName.setPromptText(s.getString("name"));
         tfAddress.setPromptText(s.getString("address"));
         cmbCountry.setPromptText(s.getString("country"));
-        cmbState.setPromptText(s.getString("state"));
+        cmbDivision.setPromptText(s.getString("state"));
         tfPostal.setPromptText(s.getString("postal"));
         tfPhone.setPromptText(s.getString("phoneNumber"));
         btnConfirm.setText(s.getString("submit"));

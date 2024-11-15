@@ -26,4 +26,15 @@ public class CountryDaoImpl {
         return countries;
     }
 
+    public static Country getCountryByID(int countryID) throws SQLException {
+        DBConnection.makeConnection();
+        String sqlStatement = "SELECT * FROM countries WHERE Country_ID = " + String.valueOf(countryID);
+        Query.makeQuery(sqlStatement);
+        ResultSet countResults = Query.getResult();
+        countResults.next();
+        int ID = countResults.getInt("Country_ID");
+        String countryName= countResults.getString("Country");
+        return new Country(ID, countryName);
+    }
+
 }

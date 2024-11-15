@@ -4,13 +4,13 @@ package models;
  */
 public class Division {
 
-    private int id, country_id;
+    private int id, countryId;
     private String division;
 
-    public Division(int id, String division, int fk) {
+    public Division(int id, String division, int countryId) {
         this.id = id;
         this.division = division;
-        country_id = fk;
+        this.countryId = countryId;
     }
 
     public String getName() {
@@ -19,5 +19,9 @@ public class Division {
 
     public int getID() {
         return id;
+    }
+    
+    public int getCountryID() {
+        return countryId;
     }
 }

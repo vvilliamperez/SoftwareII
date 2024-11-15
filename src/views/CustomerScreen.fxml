@@ -14,7 +14,7 @@
       <TextField fx:id="tfPostal" layoutX="15.0" layoutY="214.0" promptText="Postal Code" />
       <TextField fx:id="tfPhone" layoutX="14.0" layoutY="248.0" promptText="Phone Number" />
       <TextField fx:id="tfCustID" disable="true" layoutX="14.0" layoutY="361.0" promptText="Customer ID" />
-      <ComboBox fx:id="cmbState" disable="true" layoutX="14.0" layoutY="175.0" prefWidth="150.0" promptText="State" />
+      <ComboBox fx:id="cmbDivision" disable="true" layoutX="14.0" layoutY="175.0" prefWidth="150.0" promptText="State" />
       <ComboBox fx:id="cmbCountry" layoutX="15.0" layoutY="135.0" prefWidth="150.0" promptText="Country" />
       <Text fx:id="titleSection" fill="#7c7c7c" layoutX="15.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer">
          <font>
