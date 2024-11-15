@@ -15,7 +15,7 @@ public class CountryDaoImpl {
     public static List<Country> getAllCountries() throws SQLException {
         List<Country> countries = new ArrayList<Country>();
         DBConnection.makeConnection();
-        String sqlStatement = "SELECT * FROM Countries";
+        String sqlStatement = "SELECT * FROM countries";
         Query.makeQuery(sqlStatement);
         ResultSet countResults = Query.getResult();
         while (countResults.next()){

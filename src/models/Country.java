@@ -4,19 +4,19 @@ package models;
  */
 public class Country {
 
-    private int id;
-    private String country;
+    private final int id;
+    private final String name;
 
-    public Country(int id, String country) {
+    public Country(int id, String name) {
         this.id = id;
-        this.country = country;
+        this.name = name;
     }
 
     public int getID() {
         return id;
     }
 
-    public String getCountry() {
-        return country;
+    public String getName() {
+        return name;
     }
 }

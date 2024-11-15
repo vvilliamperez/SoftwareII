@@ -159,10 +159,10 @@ public class CustomerScreen extends BasicScreen {
     private void getLocationData() {
         try {
             List<Country> countriesListData = CountryDaoImpl.getAllCountries();
-            countriesList = FXCollections.observableArrayList();
+            countriesList = FXCollections.observableArrayList(countriesListData);
             countriesStrings = FXCollections.observableArrayList();
             for (Country country: countriesList){
-                countriesStrings.add(country.getCountry());
+                countriesStrings.add(country.getName());
             }
             cmbCountry.setItems(countriesStrings);
         } catch (SQLException e) {
