@@ -1,8 +1,7 @@
 package controllers;
 
-import DAO.ApptDaoImpl;
-import DAO.CustDaoImpl;
-import javafx.beans.binding.StringBinding;
+import DAO.AppointmentDaoImpl;
+import DAO.CustomerDaoImpl;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.ObservableList;
@@ -19,7 +18,7 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.time.*;
 import java.time.chrono.ChronoLocalDateTime;
-import java.util.function.Predicate;
+
 /**
  * Class for the Main Screen
  * Displays appointmens by weekly or monthly selections in a table to select and edit or delete
@@ -182,7 +181,7 @@ public class MainScreen extends BasicScreen {
 
 
         try {
-            appointments = ApptDaoImpl.getAppoitmentsByUser(currentSession.getCurrentUser());
+            appointments = AppointmentDaoImpl.getAppoitmentsByUser(currentSession.getCurrentUser());
             if (radioBtnWeekly.isSelected()){
                 tableApts.setItems(appointments.filtered(e -> e.getLdtStart().isAfter(ChronoLocalDateTime.from(datePointer)) && e.getLdtStart().isBefore(ChronoLocalDateTime.from(nextWeek))));
             } else {
@@ -194,7 +193,7 @@ public class MainScreen extends BasicScreen {
         }
 
         try {
-            customers = CustDaoImpl.getAllCustomers();
+            customers = CustomerDaoImpl.getAllCustomers();
             tableCustomers.setItems(customers);
         } catch (Exception e) {
             e.printStackTrace();
@@ -345,7 +344,7 @@ public class MainScreen extends BasicScreen {
             alert.showAndWait();
             if (alert.getResult().equals(ButtonType.OK)){
                 try {
-                    ApptDaoImpl.delete(tableApts.getSelectionModel().getSelectedItem());
+                    AppointmentDaoImpl.delete(tableApts.getSelectionModel().getSelectedItem());
                     update();
                     alert = new Alert(Alert.AlertType.INFORMATION, currentSession.getString("deletionSuccessful"));
                     alert.showAndWait();
@@ -375,7 +374,7 @@ public class MainScreen extends BasicScreen {
             alert.showAndWait();
             if (alert.getResult().equals(ButtonType.OK)){
                 try {
-                    CustDaoImpl.delete(tableCustomers.getSelectionModel().getSelectedItem());
+                    CustomerDaoImpl.delete(tableCustomers.getSelectionModel().getSelectedItem());
                     update();
                     alert = new Alert(Alert.AlertType.INFORMATION, currentSession.getString("deletionSuccessful"));
                     alert.showAndWait();

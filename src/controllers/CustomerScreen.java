@@ -1,7 +1,7 @@
 package controllers;
 
 import DAO.CountryDaoImpl;
-import DAO.CustDaoImpl;
+import DAO.CustomerDaoImpl;
 import DAO.DivisionDaoImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -100,9 +100,9 @@ public class CustomerScreen extends BasicScreen {
         Customer customer = new Customer(customerID, name, addr, post, phone, divID);
         try {
         if (currentCustomer == null) //new record
-            CustDaoImpl.create(customer);
+            CustomerDaoImpl.create(customer);
         else  //update existing record
-            CustDaoImpl.update(customer);
+            CustomerDaoImpl.update(customer);
         } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
             alert.show();

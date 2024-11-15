@@ -9,14 +9,11 @@ import models.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 
 /**
  * DAO class for Appointments
  */
-public class ApptDaoImpl {
+public class AppointmentDaoImpl {
     public static void create(Appointment apt) throws SQLException {
         DBConnection.makeConnection();
         String title = apt.getTitle();

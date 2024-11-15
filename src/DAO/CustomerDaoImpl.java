@@ -11,10 +11,10 @@ import java.sql.SQLException;
 /**
  * DAO class for Customers
  */
-public class CustDaoImpl {
+public class CustomerDaoImpl {
     public static ObservableList<Customer> getAllCustomers() throws SQLException {
         DBConnection.makeConnection();
-        String sqlStatement="select * FROM Customers";
+        String sqlStatement="select * FROM customers";
         Query.makeQuery(sqlStatement);
         Customer customer;
         ResultSet result=Query.getResult();
@@ -41,7 +41,7 @@ public class CustDaoImpl {
         String post = customer.getPostal();
         String phone = customer.getPhone();
         int div = customer.getDivision();
-        String sqlStatement="INSERT INTO Customers (Customer_Name, Address, Postal_Code, Phone, Division_ID) "
+        String sqlStatement="INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, Division_ID) "
                            +"VALUES ('" + name + "', '" + addr + "', '" + post + "', '" + phone + "', '" + div + "');";
 
         Query.makeQuery(sqlStatement);
@@ -57,7 +57,7 @@ public class CustDaoImpl {
         String phone = customer.getPhone();
         int div = customer.getDivision();
         String sqlStatement =
-                "UPDATE Customers SET "
+                "UPDATE customers SET "
                 + " Customer_Name = '" + name + "',"
                 + " Address = '" + addr + "',"
                 + " Postal_Code = '" + post + "',"
@@ -71,13 +71,13 @@ public class CustDaoImpl {
 
     public static void delete(Customer customer) throws SQLException {
         //first delete any appointments with customer ID
-        ObservableList<Appointment> appointments = ApptDaoImpl.getAppointmentsByCustomer(customer);
+        ObservableList<Appointment> appointments = AppointmentDaoImpl.getAppointmentsByCustomer(customer);
         if (!appointments.isEmpty())
-        ApptDaoImpl.deleteMany(appointments);
+        AppointmentDaoImpl.deleteMany(appointments);
         //Then delete Customer
         DBConnection.makeConnection();
         int ID = customer.getID();
-        String sqlStatement = "DELETE FROM Customers WHERE Customer_ID = " + ID + ";";
+        String sqlStatement = "DELETE FROM customers WHERE Customer_ID = " + ID + ";";
         System.out.println(sqlStatement);
         Query.makeQuery(sqlStatement);
         DBConnection.closeConnection();

@@ -1,7 +1,7 @@
 package controllers;
-import DAO.ApptDaoImpl;
+import DAO.AppointmentDaoImpl;
 import DAO.ContactDaoImpl;
-import DAO.CustDaoImpl;
+import DAO.CustomerDaoImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -154,9 +154,9 @@ public class AppointmentScreen extends BasicScreen {
 
         try {
             if (currentApt == null) //new record
-                ApptDaoImpl.create(appointment);
+                AppointmentDaoImpl.create(appointment);
             else //update appoinment
-                ApptDaoImpl.update(appointment);
+                AppointmentDaoImpl.update(appointment);
         } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
             alert.show();
@@ -183,7 +183,7 @@ public class AppointmentScreen extends BasicScreen {
 
     private void getCustomerIDData() {
         try {
-            customers = CustDaoImpl.getAllCustomers();
+            customers = CustomerDaoImpl.getAllCustomers();
             for (Customer customer: customers){
                 customerStrings.add(customer.getName());
             }
