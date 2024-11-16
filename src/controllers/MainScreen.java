@@ -17,10 +17,16 @@ import javafx.scene.text.Text;
 
 import java.sql.SQLException;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.*;
 import java.time.chrono.ChronoLocalDateTime;
 import java.util.List;
 
+import static utils.AppointmentHelper.filterAppointmentsByDateWindow;
+import static utils.SelectionWindowCalculator.calculateSelectionWindow;
+import static utils.TimeHelper.calculateResultTimestamp;
+
+import java.time.format.DateTimeFormatter;
 /**
  * Class for the Main Screen
  * Displays appointmens by weekly or monthly selections in a table to select and edit or delete
@@ -131,6 +137,12 @@ public class MainScreen extends BasicScreen {
     private Label titleSection3;
 
     @FXML
+    private Label titleSection4;
+
+    @FXML
+    private Label titleSelection5;
+
+    @FXML
     private Font x1;
 
     @FXML
@@ -155,6 +167,12 @@ public class MainScreen extends BasicScreen {
     private Text textOffset;
 
     @FXML
+    private Text textSelectionWindowStart;
+
+    @FXML
+    private Text textSelectionWindowEnd;
+
+    @FXML
     private Color x61;
 
     private ObservableList<Appointment> appointments;
@@ -164,6 +182,8 @@ public class MainScreen extends BasicScreen {
 
     private boolean checkedOnLogin = false;
 
+    private Timestamp[] selectionWindow = new Timestamp[2];
+
 
 
     @Override
@@ -171,30 +191,42 @@ public class MainScreen extends BasicScreen {
         setLocale();
 
         textOffset.setText(String.valueOf(dateOffset));
-        ZonedDateTime today = LocalDateTime.now().atZone(ZoneId.of("UTC"));
-        ZonedDateTime datePointer;
-        if (radioBtnWeekly.isSelected()){
-            datePointer = today.plusWeeks(dateOffset-1);
-        } else {
-            datePointer = today.plusMonths(dateOffset-1);
-        }
-        ZonedDateTime nextWeek = datePointer.plusWeeks(1);
-        ZonedDateTime nextMonth = datePointer.plusMonths(1);
 
-
+        List<Appointment> appointments_data;
+        List<Appointment> appointments_data_filtered;
+        // Get all appointments and filter them by week or month
         try {
-            List<Appointment> appointmentList = AppointmentDaoImpl.getAppoitmentsByUser(currentSession.getCurrentUser());
-            appointments = FXCollections.observableArrayList(appointmentList);
-            if (radioBtnWeekly.isSelected()){
-                tableApts.setItems(appointments.filtered(e -> e.getZonedTimeEnd().toLocalDateTime().isAfter(ChronoLocalDateTime.from(datePointer)) && e.getZonedTimeStart().toLocalDateTime().isBefore(ChronoLocalDateTime.from(nextWeek))));
-            } else {
-                tableApts.setItems(appointments.filtered(e -> e.getZonedTimeStart().toLocalDateTime().isAfter(ChronoLocalDateTime.from(datePointer)) && e.getZonedTimeStart().toLocalDateTime().isBefore(ChronoLocalDateTime.from(nextMonth))));
-            }
+            appointments_data = AppointmentDaoImpl.getAppoitmentsByUser(currentSession.getCurrentUser());
+            // Get current timestamp in UTC
 
-        } catch (Exception e) {
-            e.printStackTrace();
+            Timestamp nowTimestamp = Timestamp.from(Instant.now());
+            String period_type = radioBtnWeekly.isSelected() ? "Week" : "Month";
+            selectionWindow = calculateSelectionWindow(nowTimestamp, period_type, dateOffset);
+
+
+
+            appointments_data_filtered = filterAppointmentsByDateWindow(appointments_data, selectionWindow);
+
+            appointments = FXCollections.observableArrayList(appointments_data_filtered);
+            tableApts.setItems(appointments);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
 
+        // Update selection windows
+        LocalDateTime localDateTimeWindowStart = selectionWindow[0].toLocalDateTime();
+        LocalDateTime localDateTimeWindowEnd = selectionWindow[1].toLocalDateTime();
+        // Define the desired date format
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        // Format the date
+        String formattedWindowStart = localDateTimeWindowStart.format(formatter);
+        String formattedWindowEnd = localDateTimeWindowEnd.format(formatter);
+
+        textSelectionWindowStart.setText(formattedWindowStart);
+        textSelectionWindowEnd .setText(formattedWindowEnd);
+
+
+        // Get all customers
         try {
             List<Customer> customers_data = CustomerDaoImpl.getAllCustomers();
             customers = FXCollections.observableArrayList(customers_data);

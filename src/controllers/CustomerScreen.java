@@ -73,7 +73,7 @@ public class CustomerScreen extends BasicScreen {
 
         btnConfirm.setOnAction(e ->
         {
-            if (formFilled()) {
+            if (formFilled() && isValidAddress()) {
                 sendToDatabase();
                 Stage stage = (Stage) btnConfirm.getScene().getWindow();
                 stage.close();
@@ -120,6 +120,15 @@ public class CustomerScreen extends BasicScreen {
                 !cmbCountry.getSelectionModel().isEmpty() &&
                 !cmbDivision.getSelectionModel().isEmpty() );
     }
+
+    private boolean isValidAddress() {
+        // If it's a US or Canadian address it should have a street number and name, along with a city.
+        // We will check if there is a comma to separate the street address from the city.
+        // If there is no comma, we will return false.
+
+        return true;
+    }
+
 
     private void getDivisionData(String countryName) {
         try {

@@ -1,12 +1,8 @@
 package utils;
 
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-
+import java.time.*;
+import java.time.temporal.ChronoUnit;
 
 public class TimeHelper {
     public static Timestamp localDateHourAndMinToUtcTimestamp(LocalDate date, int hour, int minute) {
@@ -19,5 +15,24 @@ public class TimeHelper {
         // Convert to Timestamp
         return Timestamp.valueOf(utcZonedDateTime.toLocalDateTime());
     }
+
+    public static Timestamp calculateResultTimestamp(Timestamp now, String selection, int numberOfPeriods) {
+        // Convert the SQL Timestamp to LocalDateTime
+        LocalDateTime localDateTime = now.toInstant().atOffset(ZoneOffset.UTC).toLocalDateTime();
+
+        // Add or subtract based on the selection
+        LocalDateTime resultDateTime;
+        if ("Week".equalsIgnoreCase(selection)) {
+            resultDateTime = localDateTime.plusWeeks(numberOfPeriods);
+        } else if ("Month".equalsIgnoreCase(selection)) {
+            resultDateTime = localDateTime.plusMonths(numberOfPeriods);
+        } else {
+            throw new IllegalArgumentException("Invalid selection: " + selection);
+        }
+
+        // Convert back to SQL Timestamp
+        return Timestamp.valueOf(resultDateTime);
+    }
+
 }
 
