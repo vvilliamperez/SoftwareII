@@ -19,14 +19,16 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.time.chrono.ChronoLocalDateTime;
 import java.util.List;
+
 
 import static utils.AppointmentHelper.filterAppointmentsByDateWindow;
 import static utils.SelectionWindowCalculator.calculateSelectionWindow;
 import static utils.TimeHelper.calculateResultTimestamp;
 
-import java.time.format.DateTimeFormatter;
+
 /**
  * Class for the Main Screen
  * Displays appointmens by weekly or monthly selections in a table to select and edit or delete
