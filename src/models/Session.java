@@ -2,9 +2,12 @@ package models;
 import DAO.UserDaoImpl;
 import utils.Constants;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
+import java.io.FileWriter;
+import java.io.IOException;
 /**
  * Class for Session object
  * holds the logged in user as well as the currently editing appointment or customer
@@ -61,8 +64,39 @@ public class Session {
         currentUser = UserDaoImpl.getUserByUserName(user);
         if (currentUser == null || !currentUser.passwordVerified(pass)){
             currentUser = null;
+            logLoginAttempt(user, pass, false);
             throw new Exception(getString("authErrorMessage"));
+
         }
+        else {
+            logLoginAttempt(user, "********", true);
+        }
+    }
+
+    /**
+     * Logs a login attempt to a file
+     * @param user The username
+     * @param pass The password
+     * @param success Whether the login was successful
+     */
+    private void logLoginAttempt(String user, String pass, boolean success) {
+        // Log the login attempt to a login_activity.txt file
+        // Format: [timestamp] [username] [success]
+        String fileName = "login_activity.txt"; // The file to log to
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String timestamp = LocalDateTime.now().format(formatter); // Get the current timestamp
+        String status = success ? "SUCCESS" : "FAILURE"; // Convert success to a readable status
+
+        // Construct the log entry
+        String logEntry = String.format("[%s] [Username: %s] [Password: %s] [Status: %s]%n", timestamp, user, pass, status);
+
+        try (FileWriter fileWriter = new FileWriter(fileName, true)) { // Open in append mode
+            fileWriter.write(logEntry); // Write the log entry to the file
+        } catch (IOException e) {
+            System.err.println("Failed to write to log file: " + e.getMessage());
+        }
+
+
     }
 
     public boolean logUserOut() {

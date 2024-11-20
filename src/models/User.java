@@ -44,6 +44,12 @@ public class User {
         }
     }
 
+    public String getUserName(){
+        return username;
+    }
+
+
+
     public void updateAppointment(Appointment old, Appointment updated){
         removeAppointment(old);
         addAppointment(updated);
