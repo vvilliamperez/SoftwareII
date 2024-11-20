@@ -335,6 +335,9 @@ public class MainScreen extends BasicScreen {
 
     /**
      * Sets the factories for the table columns
+     * This uses a number of lambda expressions to set the cell Value Factories
+     * acting on a cellData object, the lambda expressions return the value of the cell with the appropriate data type
+     * and formatting.
      */
     private void setFactories() {
         colAptId.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getID()));
