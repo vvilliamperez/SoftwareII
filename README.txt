@@ -1,8 +1,7 @@
-Title - APTSYS - "AppointmentSystem"
+Title - NexMeet - "Next Meeting"
 
-Purpose - To manage clients, and appointments for a fictional company.
-            Also to be submitted as an Objectvie Assessment for
-            Software II - Advanced Java Concepts – C195
+Purpose - To manage clients and appointments for a fictional company.
+          This project is also submitted as an Objective Assessment for **Software II - Advanced Java Concepts – C195
 
 Author - William Perez
 
