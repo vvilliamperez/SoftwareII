@@ -253,22 +253,23 @@ public class MainScreen extends BasicScreen {
      */
     private void checkAlarm() {
 
-        ZonedDateTime today = LocalDateTime.now().atZone(ZoneId.of("UTC"));
+        ZonedDateTime today = LocalDateTime.now().atZone(ZoneId.systemDefault());
 
-        ZonedDateTime datePointer;
-        if (radioBtnWeekly.isSelected()){
-            datePointer = today.plusWeeks(dateOffset-1);
-        } else {
-            datePointer = today.plusMonths(dateOffset-1);
-        }
-        System.out.println(today);
-        System.out.println(datePointer);
         boolean alarmed = false;
-        for (Appointment e: appointments){
-            System.out.println(e.getZonedTimeStart().toLocalDateTime());
-            if (e.getZonedTimeStart().toLocalDateTime().isAfter(ChronoLocalDateTime.from(today)) && e.getZonedTimeStart().toLocalDateTime().isBefore(ChronoLocalDateTime.from(today.plusMinutes(15)))){
+        List<Appointment> appointments_data;
+        try {
+            appointments_data = AppointmentDaoImpl.getAppoitmentsByUser(currentSession.getCurrentUser());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        for (Appointment e: appointments_data){
+            // appointment data is in UTC. Convert to local time
+            ZonedDateTime start = e.getTimeStart().toLocalDateTime().atZone(ZoneId.of("UTC")).withZoneSameInstant(ZoneId.systemDefault());
+
+            if (start.isAfter(today) && start.isBefore(today.plusMinutes(15))){
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, currentSession.getString("alarmText") + "\n\n"
-                        + String.valueOf(e.getID()) + "\n" + e.getTimeStart().toString() );
+                        + String.valueOf(e.getTitle()) + "\n" + e.getTimeStart().toLocalDateTime().atZone(ZoneId.of("UTC")).withZoneSameInstant(ZoneId.systemDefault()) );
                 alert.showAndWait();
                 alarmed = true;
             }
