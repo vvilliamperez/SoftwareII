@@ -25,6 +25,8 @@ import java.util.List;
  * Class for the Appointment Screen
  * Handles all the appointment updates and additions
  * Autopopulates fields and sets locale
+ * Validates appointment times and checks for conflicts
+ * @see models.Appointment
  */
 public class AppointmentScreen extends BasicScreen {
 
@@ -95,12 +97,18 @@ public class AppointmentScreen extends BasicScreen {
     ObservableList<Customer> customers;
     ObservableList<String> customerStrings = FXCollections.observableArrayList();
 
+    /**
+     * Initializes the Appointment Screen
+     */
     @FXML
     public void initialize(){
         fillTimeSlots();
         setListeners();
     }
 
+    /**
+     * Sets the listeners for the Appointment Screen
+     */
     private void setListeners() {
 
         btnConfirm.setOnAction( e-> {
@@ -119,12 +127,12 @@ public class AppointmentScreen extends BasicScreen {
             Stage stage = (Stage) btnCancel.getScene().getWindow();
             stage.close();
         });
-
-
-
-
     }
 
+    /**
+     * Checks if the appointment time is valid
+     * @return True if the appointment time is valid
+     */
     private boolean notConflictingAppointment() {
         // Check if appointment time for customer is already taken
         ZonedDateTime zonedDateTimeStart, zonedDateTimeEnd;
@@ -157,6 +165,10 @@ public class AppointmentScreen extends BasicScreen {
         return true;
     }
 
+    /**
+     * Checks if the appointment time is valid
+     * @return True if the appointment time is valid
+     */
     private boolean validAppointmentTime() {
         // Time must be within the business hours of 8am to 10pm EST
         ZonedDateTime zonedDateTimeStart, zonedDateTimeEnd;
@@ -175,6 +187,9 @@ public class AppointmentScreen extends BasicScreen {
         return true;
     }
 
+    /**
+     * Sends the appointment data to the database
+     */
     private void sendToDatabase() {
         int apptID = 9999;
         if(!tfApptID.getText().isEmpty())
@@ -218,6 +233,10 @@ public class AppointmentScreen extends BasicScreen {
         }
     }
 
+    /**
+     * Checks if the form is filled
+     * @return boolean
+     */
     private boolean formFilled() {
         return  ( !tfTitle.getText().isEmpty() &&
                 !tfUserID.getText().isEmpty() &&
@@ -234,6 +253,9 @@ public class AppointmentScreen extends BasicScreen {
                 !cmbCustomerID.getSelectionModel().isEmpty());
     }
 
+    /**
+     * Gets the customer ID data
+     */
     private void getCustomerIDData() {
         try {
             List<Customer> customersData = CustomerDaoImpl.getAllCustomers();
@@ -249,6 +271,9 @@ public class AppointmentScreen extends BasicScreen {
         }
     }
 
+    /**
+     * Gets the contact data
+     */
     private void getContactData() {
         try {
             List<Contact> contactsData = ContactDaoImpl.getAllContacts();
@@ -266,6 +291,9 @@ public class AppointmentScreen extends BasicScreen {
 
     }
 
+    /**
+     * Fills the time slots
+     */
     private void fillTimeSlots() {
         hours.addAll("00", "01", "02", "03", "04", "05",
                           "06", "07", "08", "09", "10", "11",
@@ -278,6 +306,9 @@ public class AppointmentScreen extends BasicScreen {
         cmbEndMin.setItems(mins);
     }
 
+    /**
+     * Updates the screen
+     */
     @Override
     public void update() {
         this.currentApt = currentSession.getCurrentAppointment();
@@ -288,6 +319,9 @@ public class AppointmentScreen extends BasicScreen {
         setLocale();
     }
 
+    /**
+     * Populates the appointment data
+     */
     private void populateAptData() {
         Appointment apt = currentApt;
         tfApptID.setText(String.valueOf(apt.getID()));
@@ -331,6 +365,9 @@ public class AppointmentScreen extends BasicScreen {
 
 
 
+    /**
+     * Sets the locale
+     */
     @Override
     protected void setLocale() {
         Session s = currentSession;

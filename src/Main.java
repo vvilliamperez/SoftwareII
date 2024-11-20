@@ -12,6 +12,11 @@ import models.Session;
  */
 public class Main extends Application {
 
+    /**
+     * Starts the application
+     * @param primaryStage
+     * @throws Exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("./views/LoginScreen.fxml"));
@@ -22,7 +27,10 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-
+    /**
+     * Main method
+     * @param args
+     */
     public static void main(String[] args) {
         launch(args);
     }

@@ -12,6 +12,8 @@ import java.util.List;
 
 /**
  * DAO class for Customers
+ * Handles all SQL queries for customers
+ * @see models.Customer
  */
 public class CustomerDaoImpl {
     public static List<Customer> getAllCustomers() throws SQLException {

@@ -7,6 +7,8 @@ import java.sql.SQLException;
 /**
  * Database connection class
  * Holds strings for connection
+ * Connects to the database
+ * Closes the connection
  */
 public class DBConnection {
     private static final String databaseName="client_schedule";

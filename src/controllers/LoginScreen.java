@@ -26,6 +26,9 @@ public class LoginScreen extends BasicScreen {
     @FXML
     private Button btnConnect;
 
+    /**
+     * Initializes the Login Screen
+     */
     @FXML
     public void initialize(){
 
@@ -43,6 +46,9 @@ public class LoginScreen extends BasicScreen {
 
     }
 
+    /**
+     * Updates the screen
+     */
     @Override
     public void update() {
         tfUsername.clear();
@@ -50,6 +56,9 @@ public class LoginScreen extends BasicScreen {
         setLocale();
     }
 
+    /**
+     * Sets the locale
+     */
     protected void setLocale() {
         Session s = currentSession;
         primaryStage.setTitle(s.getString("loginTitle"));

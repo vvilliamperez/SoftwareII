@@ -20,16 +20,31 @@ public abstract class BasicScreen {
     protected Stage primaryStage;
     protected Session currentSession;
 
+    /**
+     * Updates the screen
+     */
     public abstract void update();
 
+    /**
+     * Sets the locale
+     */
     protected abstract void setLocale();
 
+    /**
+     * Initializes the screen
+     * @param primaryStage The primary stage
+     * @param session The session object
+     */
     public void initData(Stage primaryStage, Session session){
         this.primaryStage = primaryStage;
         this.currentSession = session;
         update();
     }
 
+    /**
+     * Opens a new window
+     * @param resourceName The resource name
+     */
     protected void openWindow(String resourceName){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/" + resourceName + ".fxml"));
         try {

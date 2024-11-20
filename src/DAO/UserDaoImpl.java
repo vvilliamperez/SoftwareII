@@ -7,8 +7,10 @@ import java.sql.SQLException;
 
 /**
  * DAO class for User
+ * Handles all SQL queries for users
+ * @see models.User
+ *
  */
-// TODO: CHANGE CODE
 public class UserDaoImpl {
     public static User getUserByUserName(String userName) throws SQLException {
         DBConnection.makeConnection();

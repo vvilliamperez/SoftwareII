@@ -15,7 +15,19 @@ public class Appointment {
 
     private String title, description, location, type;
     private int apptID, custID, userID, contactID;
-
+    /**
+     * Constructor for Appointments
+     * @param apptID The appointment ID
+     * @param title The appointment title
+     * @param desc The appointment description
+     * @param location The appointment location
+     * @param type The appointment type
+     * @param timeStart The appointment start time
+     * @param timeEnd The appointment end time
+     * @param custID The customer ID
+     * @param userID The user ID
+     * @param contactID The contact ID
+     */
     public Appointment(int apptID, String title, String desc, String location, String type, Timestamp timeStart, Timestamp timeEnd, int custID, int userID, int contactID) {
         this.apptID = apptID;
         this.title = title;

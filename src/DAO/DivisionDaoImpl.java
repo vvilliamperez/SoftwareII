@@ -12,6 +12,8 @@ import java.util.List;
 
 /**
  * DAO class for Divisions
+ * Handles all SQL queries for divisions
+ * @see models.Division
  */
 public class DivisionDaoImpl {
     public static List<Division> getAllDivisions() throws SQLException {

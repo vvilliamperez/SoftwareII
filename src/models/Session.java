@@ -18,33 +18,49 @@ public class Session {
     private Appointment currentAppointment;
     private ResourceBundle localeStrings;
 
+    /**
+     * Constructor for Session
+     * Sets the locale
+     */
     public Session(){
         setLocale();
     }
 
-
+    /**
+     * Sets the locale and resource bundle
+     */
     private void setLocale(){
         System.out.println("Setting Language");
         System.out.println(Locale.getDefault());
         localeStrings = ResourceBundle.getBundle("localization/rb");
     }
 
+    /**
+     * Gets a string from the resource bundle
+     * @param key The key for the string
+     * @return The string
+     */
     public String getString(String key){
         //Passthrough function for less verbosity
         //Gets strings from resource bundle
         return localeStrings.getString(key);
     }
 
+
     public User getCurrentUser() {
         return currentUser;
     }
 
-    //User Login/Logout
+    /**
+     * Logs in a user
+     * @param user The username
+     * @param pass The password
+     * @throws Exception If the user is not found or the password is incorrect
+     */
     public void logUserIn(String user, String pass) throws Exception {
         currentUser = UserDaoImpl.getUserByUserName(user);
         if (currentUser == null || !currentUser.passwordVerified(pass)){
             currentUser = null;
-            //TODO: translation for each language
             throw new Exception(getString("authErrorMessage"));
         }
     }

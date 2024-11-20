@@ -11,10 +11,20 @@ public class User {
     private int UID;
     private String username, password;
 
+    /**
+     * Constructor for User objects
+     * @param UID The user ID
+     */
     public User(int UID){
         this.UID = UID;
     }
 
+    /**
+     * Constructor for User objects
+     * @param UID The user ID
+     * @param username The username
+     * @param password The password
+     */
     public User(int UID, String username, String password){
         this.UID = UID;
         this.username = username;

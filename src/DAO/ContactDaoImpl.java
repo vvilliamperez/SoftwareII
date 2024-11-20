@@ -10,6 +10,8 @@ import java.util.List;
 
 /**
  * DAO class for Contacts
+ * Handles all SQL queries for contacts
+ * @see models.Contact
  */
 public class ContactDaoImpl {
     public static List<Contact> getAllContacts() throws SQLException {

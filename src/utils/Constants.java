@@ -1,5 +1,7 @@
 package utils;
-
+/**
+ * Constants class for storing database connection information
+ */
 public class Constants {
     public final String url = "jdbc:mysql://127.0.0.1:3306/";
     public final String databaseName = "client_schedule";

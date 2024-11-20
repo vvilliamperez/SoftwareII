@@ -8,6 +8,9 @@ import static DAO.DBConnection.conn;
 
 /**
  * Query class to perform SQL queries and retrieve resultSets
+ * @see DBConnection
+ * @see Statement
+ * @see ResultSet
  */
 public class Query {
     private static String query;

@@ -10,6 +10,8 @@ import java.util.List;
 
 /**
  * DAO class for Countries
+ * Handles all SQL queries for countries
+ * @see models.Country
  */
 public class CountryDaoImpl {
     public static List<Country> getAllCountries() throws SQLException {

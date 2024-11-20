@@ -33,6 +33,8 @@ import static utils.TimeHelper.calculateResultTimestamp;
  * Class for the Main Screen
  * Displays appointmens by weekly or monthly selections in a table to select and edit or delete
  * Displays customers in a separate table to select and edit or delete
+ * Allows user to select weekly or monthly view
+ * Allows user to navigate through weeks or months
  */
 public class MainScreen extends BasicScreen {
 
@@ -187,7 +189,9 @@ public class MainScreen extends BasicScreen {
     private Timestamp[] selectionWindow = new Timestamp[2];
 
 
-
+    /**
+     * Updates the screen
+     */
     @Override
     public void update() {
         setLocale();
@@ -244,6 +248,9 @@ public class MainScreen extends BasicScreen {
 
     }
 
+    /**
+     * Checks for appointments within the next 15 minutes and displays an alert if any are found
+     */
     private void checkAlarm() {
 
         ZonedDateTime today = LocalDateTime.now().atZone(ZoneId.of("UTC"));
@@ -272,7 +279,9 @@ public class MainScreen extends BasicScreen {
         }
     }
 
-
+    /**
+     * Sets the locale for the screen
+     */
     @Override
     protected void setLocale() {
         Session s = currentSession;
@@ -312,6 +321,9 @@ public class MainScreen extends BasicScreen {
         textStatus.setText(s.getString("status") + s.getString("connected"));
     }
 
+    /**
+     * Initializes the screen
+     */
     @FXML
     public void initialize(){
         setListeners();
@@ -320,6 +332,9 @@ public class MainScreen extends BasicScreen {
         radioBtnMonthly.setSelected(false);
     }
 
+    /**
+     * Sets the factories for the table columns
+     */
     private void setFactories() {
         colAptId.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getID()));
         colTitle.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getTitle()));
@@ -333,10 +348,12 @@ public class MainScreen extends BasicScreen {
 
         // Display the time in the local time zone
         // The time is stored in UTC
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
         colStart.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper(
-                cellData.getValue().getTimeStart().toLocalDateTime().atZone(ZoneId.of("UTC")).withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime().toLocalTime()));
+                cellData.getValue().getTimeStart().toLocalDateTime().atZone(ZoneId.of("UTC")).withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime().format(formatter)));
         colEnd.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper(
-                cellData.getValue().getTimeEnd().toLocalDateTime().atZone(ZoneId.of("UTC")).withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime().toLocalTime()));
+                cellData.getValue().getTimeEnd().toLocalDateTime().atZone(ZoneId.of("UTC")).withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime().format(formatter)));
 
         col2Id.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getID()));
         col2Name.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getName()));
@@ -347,7 +364,9 @@ public class MainScreen extends BasicScreen {
     }
 
 
-
+    /**
+     * Sets the listeners for the screen
+     */
     private void setListeners() {
 
         btnNext.setOnAction(e -> {

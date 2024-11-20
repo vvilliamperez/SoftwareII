@@ -14,6 +14,10 @@ import java.util.List;
 
 /**
  * DAO class for Appointments
+ * Handles all SQL queries for appointments
+ * @see models.Appointment
+ * @see models.User
+ * @see models.Customer
  */
 public class AppointmentDaoImpl {
     public static void create(Appointment apt) throws SQLException {

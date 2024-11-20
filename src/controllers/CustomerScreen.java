@@ -60,13 +60,18 @@ public class CustomerScreen extends BasicScreen {
     ObservableList<Country> countriesList;
 
     ObservableList<Division> divisionsList;
-
+    /**
+     * Initializes the Customer Screen
+     */
     @FXML
     public void initialize(){
         getLocationData();
         setListeners();
     }
 
+    /**
+     * Sets the listeners for the Customer Screen
+     */
     private void setListeners(){
         cmbCountry.getSelectionModel().selectedItemProperty().addListener(
                 (options, oldValue, newValue) -> {getDivisionData(newValue);});
@@ -87,7 +92,9 @@ public class CustomerScreen extends BasicScreen {
     }
 
 
-
+    /**
+     * Sends the customer data to the database
+     */
     private void sendToDatabase() {
         String name = tfName.getText();
         String addr = tfAddress.getText();
@@ -111,7 +118,10 @@ public class CustomerScreen extends BasicScreen {
             e.printStackTrace();
         }
     }
-
+    /**
+     * Checks if the form is filled
+     * @return boolean
+     */
     private boolean formFilled() {
         return (!tfAddress.getText().isEmpty() &&
                 !tfPostal.getText().isEmpty() &&
@@ -120,7 +130,10 @@ public class CustomerScreen extends BasicScreen {
                 !cmbCountry.getSelectionModel().isEmpty() &&
                 !cmbDivision.getSelectionModel().isEmpty() );
     }
-
+    /**
+     * Checks if the address is valid
+     * @return boolean
+     */
     private boolean isValidAddress() {
         // If it's a US or Canadian address it should have a street number and name, along with a city.
         // We will check if there is a comma to separate the street address from the city.
@@ -129,7 +142,10 @@ public class CustomerScreen extends BasicScreen {
         return true;
     }
 
-
+    /**
+     * Gets the division data
+     * @param countryName The name of the country
+     */
     private void getDivisionData(String countryName) {
         try {
             List<Division> divisionsListData = DivisionDaoImpl.getDivisionsByCountryName(countryName);
@@ -147,14 +163,18 @@ public class CustomerScreen extends BasicScreen {
         cmbDivision.setDisable(false);
     }
 
-
+    /**
+     * Updates the screen
+     */
     @Override
     public void update() {
         this.currentCustomer = currentSession.getCurrentCustomer();
         if (currentCustomer != null) populateCustomerData();
         setLocale();
     }
-
+    /**
+     * Populates the customer data
+     */
     private void populateCustomerData() {
         Customer cc = currentCustomer;
         tfAddress.setText(cc.getAddress());
@@ -178,6 +198,9 @@ public class CustomerScreen extends BasicScreen {
         }
     }
 
+    /**
+     * Gets the location data
+     */
     private void getLocationData() {
         try {
             List<Country> countriesListData = CountryDaoImpl.getAllCountries();
@@ -193,7 +216,10 @@ public class CustomerScreen extends BasicScreen {
             e.printStackTrace();
         }
     }
-
+    
+    /**
+     * Sets the locale
+     */
     @Override
     protected void setLocale() {
         Session s = currentSession;
