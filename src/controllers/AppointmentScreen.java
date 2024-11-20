@@ -104,7 +104,7 @@ public class AppointmentScreen extends BasicScreen {
     private void setListeners() {
 
         btnConfirm.setOnAction( e-> {
-            if(formFilled()) {
+            if(formFilled() && validAppointmentTime() && notConflictingAppointment()) {
                 sendToDatabase();
                 Stage stage = (Stage) btnConfirm.getScene().getWindow();
                 stage.close();
@@ -123,6 +123,56 @@ public class AppointmentScreen extends BasicScreen {
 
 
 
+    }
+
+    private boolean notConflictingAppointment() {
+        // Check if appointment time for customer is already taken
+        ZonedDateTime zonedDateTimeStart, zonedDateTimeEnd;
+        zonedDateTimeStart = dateStart.getValue().atTime(Integer.parseInt(cmbStartHr.getValue()), Integer.parseInt(cmbStartMin.getValue())).atZone(ZoneId.systemDefault());
+        zonedDateTimeEnd = dateEnd.getValue().atTime(Integer.parseInt(cmbEndHr.getValue()), Integer.parseInt(cmbEndMin.getValue())).atZone(ZoneId.systemDefault());
+        ZonedDateTime utcStart = zonedDateTimeStart.withZoneSameInstant(ZoneId.of("UTC"));
+        ZonedDateTime utcEnd = zonedDateTimeEnd.withZoneSameInstant(ZoneId.of("UTC"));
+
+        LocalDateTime currentStart = utcStart.toLocalDateTime();
+        LocalDateTime currentEnd = utcEnd.toLocalDateTime();
+        Customer customer = customers.get(cmbCustomerID.getSelectionModel().getSelectedIndex());
+        try {
+            List<Appointment> appointments = AppointmentDaoImpl.getAppointmentsByCustomer(customer);
+            for (Appointment existing_appointment: appointments){
+                if (currentApt != null && existing_appointment.getID() == currentApt.getID())
+                    continue;
+                // If the start or end time is within an existing appointment, it's invalid
+                if ((currentStart.isAfter(existing_appointment.getTimeStart().toLocalDateTime()) && currentStart.isBefore(existing_appointment.getTimeEnd().toLocalDateTime())) ||
+                        (currentEnd.isAfter(existing_appointment.getTimeStart().toLocalDateTime()) && currentEnd.isBefore(existing_appointment.getTimeEnd().toLocalDateTime()))) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, currentSession.getString("appointmentConflict"));
+                    alert.showAndWait();
+                    return false;
+                }
+            }
+        } catch (SQLException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+            alert.show();
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    private boolean validAppointmentTime() {
+        // Time must be within the business hours of 8am to 10pm EST
+        ZonedDateTime zonedDateTimeStart, zonedDateTimeEnd;
+
+        zonedDateTimeStart = dateStart.getValue().atTime(Integer.parseInt(cmbStartHr.getValue()), Integer.parseInt(cmbStartMin.getValue())).atZone(ZoneId.systemDefault());
+        zonedDateTimeEnd = dateEnd.getValue().atTime(Integer.parseInt(cmbEndHr.getValue()), Integer.parseInt(cmbEndMin.getValue())).atZone(ZoneId.systemDefault());
+        ZonedDateTime utcStart = zonedDateTimeStart.withZoneSameInstant(ZoneId.of("UTC"));
+        ZonedDateTime utcEnd = zonedDateTimeEnd.withZoneSameInstant(ZoneId.of("UTC"));
+
+        if (utcStart.getHour() < 12 || utcEnd.getHour() > 22) {
+            // 12 UTC is 8am EST, 22 UTC is 10pm EST
+            Alert alert = new Alert(Alert.AlertType.ERROR, currentSession.getString("appointmentOutsideBusinessHours"));
+            alert.showAndWait();
+            return false;
+        }
+        return true;
     }
 
     private void sendToDatabase() {
