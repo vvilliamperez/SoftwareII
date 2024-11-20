@@ -330,8 +330,13 @@ public class MainScreen extends BasicScreen {
         colCustID.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getCustID()));
         colUserId.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getUserID()));
 
-        colStart.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper(cellData.getValue().getZonedTimeStart().toLocalDateTime().atZone(ZoneId.systemDefault())));
-        colEnd.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper(cellData.getValue().getZonedTimeEnd().toLocalDateTime().atZone(ZoneId.systemDefault())));
+
+        // Display the time in the local time zone
+        // The time is stored in UTC
+        colStart.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper(
+                cellData.getValue().getTimeStart().toLocalDateTime().atZone(ZoneId.of("UTC")).withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime().toLocalTime()));
+        colEnd.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper(
+                cellData.getValue().getTimeEnd().toLocalDateTime().atZone(ZoneId.of("UTC")).withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime().toLocalTime()));
 
         col2Id.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getID()));
         col2Name.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getName()));

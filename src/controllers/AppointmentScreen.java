@@ -189,6 +189,11 @@ public class AppointmentScreen extends BasicScreen {
         ZonedDateTime zonedDateTimeStart, zonedDateTimeEnd;
         zonedDateTimeStart = dateStart.getValue().atTime(Integer.parseInt(cmbStartHr.getValue()), Integer.parseInt(cmbStartMin.getValue())).atZone(ZoneId.systemDefault());
         zonedDateTimeEnd = dateEnd.getValue().atTime(Integer.parseInt(cmbEndHr.getValue()), Integer.parseInt(cmbEndMin.getValue())).atZone(ZoneId.systemDefault());
+        // Log out zonedDateTimeStart and zonedDateTimeEnd
+        //System.out.println("Start: " + zonedDateTimeStart.toString());
+        //System.out.println("End: " + zonedDateTimeEnd.toString());
+
+
         ZonedDateTime utcStart = zonedDateTimeStart.withZoneSameInstant(ZoneId.of("UTC"));
         ZonedDateTime utcEnd = zonedDateTimeEnd.withZoneSameInstant(ZoneId.of("UTC"));
 
@@ -292,12 +297,15 @@ public class AppointmentScreen extends BasicScreen {
         tfUserID.setText(String.valueOf(apt.getUserID()));
         fcDescription.setText(apt.getDescription());
 
-        // All reads from the database are in UTC time, convert to local time
-        ZonedDateTime dateTimeStart = apt.getTimeStart().toLocalDateTime().atZone(ZoneId.systemDefault());
-        ZonedDateTime dateTimeEnd = apt.getTimeEnd().toLocalDateTime().atZone(ZoneId.systemDefault());
+        // Data from apt is a Timestamp in UTC. Read it in as a ZonedDateTime and offset it to the local time zone
+        ZonedDateTime dateTimeStart = apt.getTimeStart().toLocalDateTime().atZone(ZoneId.of("UTC")).withZoneSameInstant(ZoneId.systemDefault());
+        ZonedDateTime dateTimeEnd = apt.getTimeEnd().toLocalDateTime().atZone(ZoneId.of("UTC")).withZoneSameInstant(ZoneId.systemDefault());
 
+        // Fill in the date pickers
         dateStart.setValue(dateTimeStart.toLocalDate());
         dateEnd.setValue(dateTimeEnd.toLocalDate());
+
+
         String starthr, startmin, endhr, endmin;
         starthr = String.format("%02d", dateTimeStart.getHour());
         startmin = String.format("%02d", dateTimeStart.getMinute());
