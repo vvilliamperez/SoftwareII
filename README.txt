@@ -8,8 +8,13 @@ Author - William Perez
 
 Contact - wepere25@wgu.edu
 
-IDE - IntelliJ IDEA 2021.2.1 (Ultimate Edition)
-      Build #IU-212.5080.55, built on August 23, 2021
+IDE - IntelliJ IDEA 2024.3 (Ultimate Edition)
+      Build #IU-243.21565.193, built on November 12, 2024
+      Licensed to William Perez
+      Subscription is active until May 4, 2025.
+      For educational use only.
+
+
 
 JDK Version -  11.0.12
 JavaFX Version - 11.0.2
