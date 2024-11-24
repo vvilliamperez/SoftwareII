@@ -9,6 +9,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import models.Session;
 
+import java.util.Locale;
+import java.util.TimeZone;
+
 /**
  * Class for the Login Screen
  * Handles username and password verification
@@ -21,7 +24,13 @@ public class LoginScreen extends BasicScreen {
     private PasswordField tfPassword;
 
     @FXML
-    private Text textLocale;
+    private Text textLanguage;
+
+    @FXML
+    private Text textLocation;
+
+    @FXML
+    private Text textTimeZone;
 
     @FXML
     private Button btnConnect;
@@ -44,6 +53,7 @@ public class LoginScreen extends BasicScreen {
             }
         });
 
+
     }
 
     /**
@@ -64,7 +74,25 @@ public class LoginScreen extends BasicScreen {
         primaryStage.setTitle(s.getString("loginTitle"));
         tfUsername.setPromptText(s.getString("unamePrompt"));
         tfPassword.setPromptText(s.getString("passPrompt"));
-        textLocale.setText(s.getString("locale"));
+        textLanguage.setText(s.getString("language"));
+
+        Locale locale = Locale.getDefault();
+        String country = locale.getCountry(); // Country code (e.g., "US")
+        String language = locale.getLanguage(); // Language code (e.g., "en")
+        String displayName = locale.getDisplayName(); // Human-readable name (e.g., "English (United States)")
+
+        System.out.println("System Country: " + country);
+        System.out.println("System Language: " + language);
+        System.out.println("Locale Display Name: " + displayName);
+        textLocation.setText(displayName);
+
+        TimeZone timeZone = TimeZone.getDefault();
+        String timeZoneId = timeZone.getID();
+
+        textTimeZone.setText(timeZoneId);
+
+
+
         btnConnect.setText(s.getString("connect"));
     }
 

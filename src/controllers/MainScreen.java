@@ -318,7 +318,7 @@ public class MainScreen extends BasicScreen {
         col2Postal.setText(s.getString("postal"));
         col2Division.setText(s.getString("division"));
 
-        textLocale.setText(s.getString("locale"));
+        textLocale.setText(s.getString("language"));
         textStatus.setText(s.getString("status") + s.getString("connected"));
     }
 

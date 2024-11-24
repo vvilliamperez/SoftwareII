@@ -6,13 +6,17 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="340.0" prefWidth="289.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginScreen">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="340.0" prefWidth="289.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginScreen">
    <children>
       <TextField fx:id="tfUsername" layoutX="70.0" layoutY="134.0" promptText="Username" />
-      <Text layoutX="14.0" layoutY="322.0" strokeType="OUTSIDE" strokeWidth="0.0" text="System Locale: " />
-      <Text fx:id="textLocale" layoutX="107.0" layoutY="322.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LOCALE" />
+      <Text layoutX="35.0" layoutY="322.0" strokeType="OUTSIDE" strokeWidth="0.0" text="System Language: " />
+      <Text fx:id="textLanguage" layoutX="164.0" layoutY="322.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LOCALE" />
       <Button fx:id="btnConnect" defaultButton="true" layoutX="101.0" layoutY="210.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="87.0" text="Connect" />
       <Text layoutX="124.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="NexMeet" />
       <PasswordField fx:id="tfPassword" layoutX="70.0" layoutY="170.0" promptText="Password" />
+      <Text layoutX="38.0" layoutY="295.0" strokeType="OUTSIDE" strokeWidth="0.0" text="System Location: " />
+      <Text fx:id="textLocation" layoutX="164.0" layoutY="295.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LOCALE" />
+      <Text layoutX="36.0" layoutY="263.0" strokeType="OUTSIDE" strokeWidth="0.0" text="System Timezone:" />
+      <Text fx:id="textTimeZone" layoutX="164.0" layoutY="263.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LOCALE" />
    </children>
 </AnchorPane>

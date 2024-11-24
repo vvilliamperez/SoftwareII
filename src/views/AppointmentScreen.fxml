@@ -42,7 +42,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="576.0" prefWidth="326.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AppointmentScreen">
+<AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="576.0" prefWidth="326.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AppointmentScreen">
    <children>
       <Label fx:id="titleSection" alignment="CENTER" layoutX="14.0" layoutY="14.0" style="&#10;" text="Appointment" textAlignment="CENTER" wrapText="false">
          <font>
@@ -52,17 +52,17 @@
             <Color red="0.624" green="0.624" blue="0.624" fx:id="x2" />
          </textFill>
       </Label>
-      <TextField fx:id="tfApptID" disable="true" layoutX="34.0" layoutY="473.0" prefHeight="25.0" prefWidth="85.0" promptText="Appoitnemt ID" />
+      <TextField fx:id="tfApptID" disable="true" layoutX="34.0" layoutY="473.0" prefHeight="26.0" prefWidth="118.0" promptText="Appoitnemt ID" />
       <TextField fx:id="tfTitle" layoutX="32.0" layoutY="61.0" prefHeight="25.0" prefWidth="257.0" promptText="Title" />
       <TextArea fx:id="fcDescription" layoutX="32.0" layoutY="266.0" prefHeight="148.0" prefWidth="257.0" promptText="Description" />
       <TextField fx:id="tfLocation" layoutX="33.0" layoutY="187.0" prefHeight="25.0" prefWidth="146.0" promptText="Location" />
-      <TextField fx:id="tfType" layoutX="201.0" layoutY="187.0" prefHeight="25.0" prefWidth="90.0" promptText="Type" />
+      <TextField fx:id="tfType" layoutX="201.0" layoutY="473.0" prefHeight="25.0" prefWidth="90.0" promptText="Type" />
       <DatePicker fx:id="dateStart" layoutX="14.0" layoutY="107.0" prefHeight="25.0" prefWidth="150.0" promptText="Start Date" />
       <DatePicker fx:id="dateEnd" layoutX="14.0" layoutY="143.0" prefHeight="25.0" prefWidth="150.0" promptText="End Date" />
-      <TextField fx:id="tfUserID" layoutX="201.0" layoutY="473.0" prefHeight="25.0" prefWidth="90.0" promptText="User ID" />
+      <TextField fx:id="tfUserID" layoutX="199.0" layoutY="187.0" prefHeight="25.0" prefWidth="90.0" promptText="User ID" />
       <ComboBox fx:id="cmbCustomerID" layoutX="33.0" layoutY="431.0" prefHeight="25.0" prefWidth="257.0" promptText="Customer_ID" />
       <Button fx:id="btnConfirm" layoutX="118.0" layoutY="507.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="171.0" text="Create" />
-      <Button fx:id="btnCancel" layoutX="33.0" layoutY="507.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="71.0" text="Cancel" textFill="#909090" />
+      <Button fx:id="btnCancel" layoutX="33.0" layoutY="507.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="71.0" text="Cancel" textFill="#fc9c9c" />
       <ComboBox fx:id="cmbStartHr" layoutX="169.0" layoutY="107.0" prefHeight="25.0" prefWidth="71.0" />
       <ComboBox fx:id="cmbStartMin" layoutX="244.0" layoutY="107.0" prefHeight="25.0" prefWidth="71.0" />
       <ComboBox fx:id="cmbEndHr" layoutX="169.0" layoutY="143.0" prefHeight="25.0" prefWidth="71.0" />
