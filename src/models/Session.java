@@ -20,6 +20,7 @@ public class Session {
     private Customer currentCustomer;
     private Appointment currentAppointment;
     private ResourceBundle localeStrings;
+    private Report currentReport;
 
     /**
      * Constructor for Session
@@ -52,6 +53,14 @@ public class Session {
 
     public User getCurrentUser() {
         return currentUser;
+    }
+
+    public Report getCurrentReport() {
+        return currentReport;
+    }
+
+    public void setCurrentReport(Report currentReport) {
+        this.currentReport = currentReport;
     }
 
     /**

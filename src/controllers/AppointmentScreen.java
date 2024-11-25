@@ -141,21 +141,37 @@ public class AppointmentScreen extends BasicScreen {
         ZonedDateTime utcStart = zonedDateTimeStart.withZoneSameInstant(ZoneId.of("UTC"));
         ZonedDateTime utcEnd = zonedDateTimeEnd.withZoneSameInstant(ZoneId.of("UTC"));
 
+
+        // Check if appointment time for customer is already taken
         LocalDateTime currentStart = utcStart.toLocalDateTime();
         LocalDateTime currentEnd = utcEnd.toLocalDateTime();
         Customer customer = customers.get(cmbCustomerID.getSelectionModel().getSelectedIndex());
         try {
-            List<Appointment> appointments = AppointmentDaoImpl.getAppointmentsByCustomer(customer);
-            for (Appointment existing_appointment: appointments){
+            List<Appointment> appointments_for_customer = AppointmentDaoImpl.getAppointmentsByCustomer(customer);
+            for (Appointment existing_appointment: appointments_for_customer){
                 if (currentApt != null && existing_appointment.getID() == currentApt.getID())
                     continue;
                 // If the start or end time is within an existing appointment, it's invalid
                 if ((currentStart.isAfter(existing_appointment.getTimeStart().toLocalDateTime()) && currentStart.isBefore(existing_appointment.getTimeEnd().toLocalDateTime())) ||
                         (currentEnd.isAfter(existing_appointment.getTimeStart().toLocalDateTime()) && currentEnd.isBefore(existing_appointment.getTimeEnd().toLocalDateTime()))) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR, currentSession.getString("appointmentConflict"));
+                    Alert alert = new Alert(Alert.AlertType.ERROR, currentSession.getString("appointmentConflictCustomer"));
                     alert.showAndWait();
                     return false;
                 }
+            }
+
+            // Check if appointment time for user is already taken
+            List<Appointment> appointments_for_user = AppointmentDaoImpl.getAppoitmentsByUser(currentSession.getCurrentUser());
+            for (Appointment existing_appoitnemnt: appointments_for_user ){
+                if (currentApt != null && existing_appoitnemnt.getID() == currentApt.getID())
+                    continue;
+                if ((currentStart.isAfter(existing_appoitnemnt.getTimeStart().toLocalDateTime()) && currentStart.isBefore(existing_appoitnemnt.getTimeEnd().toLocalDateTime())) ||
+                        (currentEnd.isAfter(existing_appoitnemnt.getTimeStart().toLocalDateTime()) && currentEnd.isBefore(existing_appoitnemnt.getTimeEnd().toLocalDateTime()))) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, currentSession.getString("appointmentConflictUser"));
+                    alert.showAndWait();
+                    return false;
+                }
+
             }
         } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());

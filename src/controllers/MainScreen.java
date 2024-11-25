@@ -2,6 +2,7 @@ package controllers;
 
 import DAO.AppointmentDaoImpl;
 import DAO.CustomerDaoImpl;
+import DAO.ReportDaoImpl;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
@@ -10,23 +11,24 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import models.Appointment;
 import models.Customer;
+import models.Report;
 import models.Session;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.time.chrono.ChronoLocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
 import static utils.AppointmentHelper.filterAppointmentsByDateWindow;
 import static utils.SelectionWindowCalculator.calculateSelectionWindow;
-import static utils.TimeHelper.calculateResultTimestamp;
 
 
 /**
@@ -179,6 +181,12 @@ public class MainScreen extends BasicScreen {
     @FXML
     private Color x61;
 
+    @FXML
+    private ComboBox<String> cmbReportType;
+
+    @FXML
+    private Button btnRunReport;
+
     private ObservableList<Appointment> appointments;
     private ObservableList<Customer> customers;
 
@@ -195,7 +203,6 @@ public class MainScreen extends BasicScreen {
     @Override
     public void update() {
         setLocale();
-
         textOffset.setText(String.valueOf(dateOffset));
 
         List<Appointment> appointments_data;
@@ -320,6 +327,13 @@ public class MainScreen extends BasicScreen {
 
         textLocale.setText(s.getString("language"));
         textStatus.setText(s.getString("status") + s.getString("connected"));
+
+        ArrayList<String> reportTypes = new ArrayList<>();
+        reportTypes.add(currentSession.getString("appointmentReport"));
+        reportTypes.add(currentSession.getString("contactReport"));
+        reportTypes.add(currentSession.getString("specialReport"));
+
+        cmbReportType.setItems(FXCollections.observableArrayList(reportTypes));
     }
 
     /**
@@ -331,6 +345,10 @@ public class MainScreen extends BasicScreen {
         setFactories();
         radioBtnWeekly.setSelected(true);
         radioBtnMonthly.setSelected(false);
+
+
+
+
     }
 
     /**
@@ -451,10 +469,41 @@ public class MainScreen extends BasicScreen {
                 }
             }
         });
+        
+        btnRunReport.setOnAction(actionEvent -> {
+            if (cmbReportType.getSelectionModel().getSelectedItem().equals(currentSession.getString("appointmentReport"))){
+                runAppointmentReport();
+            }
+            else if (cmbReportType.getSelectionModel().getSelectedItem().equals(currentSession.getString("contactReport"))){
+                runCustomerReport();
+            }
+            else if (cmbReportType.getSelectionModel().getSelectedItem().equals(currentSession.getString("specialReport"))){
+                runSpecialReport();
+            }
+        });
 
 
 
     }
 
+    /**
+     * Runs report and creates dialogue box displaying the results
+     */
+    private void runAppointmentReport() {
+        try {
+            currentSession.setCurrentReport(ReportDaoImpl.appointmentReport());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        openWindow("ReportScreen");
+    }
+
+    private void runCustomerReport() {
+    }
+
+
+    private void runSpecialReport() {
+
+    }
 
 }

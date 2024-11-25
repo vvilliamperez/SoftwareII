@@ -34,6 +34,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
@@ -58,11 +59,13 @@
                   <Color red="0.624" green="0.624" blue="0.624" fx:id="x2" />
                </textFill>
             </Label>
-            <Text fx:id="timeclock" layoutX="467.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scheduler">
+            <Text fx:id="timeclock" layoutX="421.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scheduler">
                <font>
                   <Font size="49.0" />
                </font>
             </Text>
+            <Button fx:id="btnRunReport" layoutX="892.0" layoutY="73.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="136.0" text="Run Report" />
+            <ComboBox fx:id="cmbReportType" layoutX="820.0" layoutY="42.0" prefHeight="26.0" prefWidth="208.0" promptText="Report Type" />
          </children>
          <opaqueInsets>
             <Insets />
