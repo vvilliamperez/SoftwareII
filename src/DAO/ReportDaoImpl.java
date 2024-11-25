@@ -1,9 +1,12 @@
 package DAO;
 
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import models.Report;
 
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
 public class ReportDaoImpl {
@@ -24,8 +27,25 @@ public class ReportDaoImpl {
                 "    type;\n");
         Query.makeQuery(sql_statement);
         ResultSet countResults = Query.getResult();
-        Report report = new Report(countResults);
+        ResultSetMetaData metaData = countResults.getMetaData();
+
+        int columnCount = metaData.getColumnCount();
+        ObservableList<ObservableList<String>> data = FXCollections.observableArrayList();
+        while (countResults.next()) {
+            ObservableList<String> row = FXCollections.observableArrayList();
+            for (int i = 1; i <= columnCount; i++) {
+                row.add(countResults.getString(i));
+            }
+            data.add(row);
+        }
+        ObservableList<String> columnNames = FXCollections.observableArrayList();
+        int columnNameCount = metaData.getColumnCount();
+        for (int i = 1; i <= columnNameCount; i++) {
+            columnNames.add(metaData.getColumnName(i));
+        }
+
         DBConnection.closeConnection();
+        Report report = new Report(data, columnNames);
         return report;
     }
 

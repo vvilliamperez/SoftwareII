@@ -1,24 +1,12 @@
 package controllers;
-import DAO.AppointmentDaoImpl;
-import DAO.ContactDaoImpl;
-import DAO.CustomerDaoImpl;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import models.*;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.List;
 
 /**
  * Class for the Appointment Screen
@@ -33,7 +21,7 @@ public class ReportScreen extends BasicScreen {
     private Button btnClose;
 
     @FXML
-    private TableView<Object> tableReport;
+    private TableView<ObservableList<String>> tableReport;
 
     @FXML
     private Text textTitle;
@@ -72,14 +60,50 @@ public class ReportScreen extends BasicScreen {
         setLocale();
     }
 
+
+    /**
+     * Adds columns to the table view
+     * @param tableView The table view to add columns to
+     * @param columnNames The names of the columns
+     */
+    public void addColumns(TableView<ObservableList<String>> tableView, ObservableList<String> columnNames) {
+        // Clear existing columns
+        tableView.getColumns().clear();
+
+        // Create a TableColumn for each column name
+        for (int i = 0; i < columnNames.size(); i++) {
+            final int columnIndex = i; // Final index for use in the lambda
+
+            TableColumn<ObservableList<String>, String> column = new TableColumn<>(columnNames.get(i));
+            column.setCellValueFactory(cellData -> {
+                ObservableList<String> row = cellData.getValue();
+                // Return the value at the current column index
+                return new SimpleStringProperty(row.size() > columnIndex ? row.get(columnIndex) : "");
+            });
+
+            tableView.getColumns().add(column);
+        }
+    }
+
+
     /**
      * Populates the appointment data
      */
     private void populateTableData() {
 
+        // If the report data is null, return
+        if (reportData == null) {
+            return;
+        }
+
+        // make a column for each field in the report
+        // reportData is a resultSet
+        ObservableList<ObservableList<String>> data = reportData.getReportData();
+        ObservableList<String> columnNames = reportData.getColumnNames();
+        addColumns(tableReport, columnNames);
+        tableReport.setItems(FXCollections.observableArrayList(data));
 
     }
-
 
     /**
      * Sets the locale

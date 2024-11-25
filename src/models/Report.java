@@ -1,21 +1,27 @@
 package models;
 
-import java.sql.ResultSet;
+import javafx.collections.ObservableList;
 
 public class Report {
 
-    private ResultSet reportData;
+    private ObservableList<ObservableList<String>> reportData;
+    private ObservableList<String> columnNames;
 
-    public Report(ResultSet reportData) {
+    public Report(ObservableList<ObservableList<String>> reportData, ObservableList<String> metaData) {
         this.reportData = reportData;
+        this.columnNames = metaData;
     }
 
-    public ResultSet getReportData() {
+    public ObservableList<ObservableList<String>> getReportData() {
         return reportData;
     }
 
-    public void setReportData(ResultSet reportData) {
+    public void setReportData(ObservableList<ObservableList<String>> reportData) {
         this.reportData = reportData;
+    }
+
+    public ObservableList<String> getColumnNames() {
+        return columnNames;
     }
 
 }
