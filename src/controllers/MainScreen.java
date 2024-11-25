@@ -11,13 +11,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import models.Appointment;
 import models.Customer;
-import models.Report;
 import models.Session;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -331,7 +329,7 @@ public class MainScreen extends BasicScreen {
         ArrayList<String> reportTypes = new ArrayList<>();
         reportTypes.add(currentSession.getString("appointmentReport"));
         reportTypes.add(currentSession.getString("contactReport"));
-        reportTypes.add(currentSession.getString("specialReport"));
+        reportTypes.add(currentSession.getString("customerReport"));
 
         cmbReportType.setItems(FXCollections.observableArrayList(reportTypes));
     }
@@ -475,10 +473,10 @@ public class MainScreen extends BasicScreen {
                 runAppointmentReport();
             }
             else if (cmbReportType.getSelectionModel().getSelectedItem().equals(currentSession.getString("contactReport"))){
-                runCustomerReport();
+                runContactScheduleReport();
             }
-            else if (cmbReportType.getSelectionModel().getSelectedItem().equals(currentSession.getString("specialReport"))){
-                runSpecialReport();
+            else if (cmbReportType.getSelectionModel().getSelectedItem().equals(currentSession.getString("customerReport"))){
+                runCustomerOverviewReport();
             }
         });
 
@@ -498,11 +496,23 @@ public class MainScreen extends BasicScreen {
         openWindow("ReportScreen");
     }
 
-    private void runCustomerReport() {
+    private void runContactScheduleReport() {
+        try {
+            currentSession.setCurrentReport(ReportDaoImpl.contactScheduleReport());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        openWindow("ReportScreen");
     }
 
 
-    private void runSpecialReport() {
+    private void runCustomerOverviewReport() {
+        try {
+            currentSession.setCurrentReport(ReportDaoImpl.customerOverviewReport());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        openWindow("ReportScreen");
 
     }
 
