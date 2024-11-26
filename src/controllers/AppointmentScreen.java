@@ -13,6 +13,7 @@ import models.Appointment;
 import models.Contact;
 import models.Customer;
 import models.Session;
+import utils.AppointmentHelper;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -152,8 +153,17 @@ public class AppointmentScreen extends BasicScreen {
                 if (currentApt != null && existing_appointment.getID() == currentApt.getID())
                     continue;
                 // If the start or end time is within an existing appointment, it's invalid
-                if ((currentStart.isAfter(existing_appointment.getTimeStart().toLocalDateTime()) && currentStart.isBefore(existing_appointment.getTimeEnd().toLocalDateTime())) ||
-                        (currentEnd.isAfter(existing_appointment.getTimeStart().toLocalDateTime()) && currentEnd.isBefore(existing_appointment.getTimeEnd().toLocalDateTime()))) {
+                LocalDateTime start_and_end[];
+                start_and_end = AppointmentHelper.getUTCLocalDateTimeStartAndEnd(existing_appointment);
+                LocalDateTime existing_start = start_and_end[0];
+                LocalDateTime existing_end = start_and_end[1];
+
+                boolean time_is_the_same = (currentStart.equals(existing_start) || currentEnd.equals(existing_end));
+                boolean time_is_within = (currentStart.isAfter(existing_start) && currentStart.isBefore(existing_end)) ||
+                        (currentEnd.isAfter(existing_start) && currentEnd.isBefore(existing_end));
+
+                if (time_is_within || time_is_the_same )
+                {
                     Alert alert = new Alert(Alert.AlertType.ERROR, currentSession.getString("appointmentConflictCustomer"));
                     alert.showAndWait();
                     return false;
@@ -163,10 +173,19 @@ public class AppointmentScreen extends BasicScreen {
             // Check if appointment time for user is already taken
             List<Appointment> appointments_for_user = AppointmentDaoImpl.getAppoitmentsByUser(currentSession.getCurrentUser());
             for (Appointment existing_appoitnemnt: appointments_for_user ){
+                LocalDateTime start_and_end[];
+                start_and_end = AppointmentHelper.getUTCLocalDateTimeStartAndEnd(existing_appoitnemnt);
+                LocalDateTime existing_start = start_and_end[0];
+                LocalDateTime existing_end = start_and_end[1];
+
                 if (currentApt != null && existing_appoitnemnt.getID() == currentApt.getID())
                     continue;
-                if ((currentStart.isAfter(existing_appoitnemnt.getTimeStart().toLocalDateTime()) && currentStart.isBefore(existing_appoitnemnt.getTimeEnd().toLocalDateTime())) ||
-                        (currentEnd.isAfter(existing_appoitnemnt.getTimeStart().toLocalDateTime()) && currentEnd.isBefore(existing_appoitnemnt.getTimeEnd().toLocalDateTime()))) {
+
+                boolean time_is_the_same = (currentStart.equals(existing_start) || currentEnd.equals(existing_end));
+                boolean time_is_within = (currentStart.isAfter(existing_start) && currentStart.isBefore(existing_end)) ||
+                        (currentEnd.isAfter(existing_start) && currentEnd.isBefore(existing_end));
+
+                if (time_is_within || time_is_the_same ) {
                     Alert alert = new Alert(Alert.AlertType.ERROR, currentSession.getString("appointmentConflictUser"));
                     alert.showAndWait();
                     return false;
@@ -200,6 +219,8 @@ public class AppointmentScreen extends BasicScreen {
             alert.showAndWait();
             return false;
         }
+
+
         return true;
     }
 

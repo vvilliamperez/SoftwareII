@@ -98,9 +98,6 @@ public class ReportDaoImpl {
             data.add(row);
         }
 
-
-
-
         // Add column names to ObservableList
         ObservableList<String> columnNames = FXCollections.observableArrayList();
         int columnNameCount = metaData.getColumnCount();
