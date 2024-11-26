@@ -88,6 +88,7 @@ public class ReportDaoImpl {
             for (int i = 1; i <= columnCount; i++) {
                 String cell_data = scheduleResults.getString(i);
                 if (i == 6 || i == 7) {
+                    // Row 6 and 7 are the start and end timestamps
                     Timestamp utcTimestamp = scheduleResults.getTimestamp(i);
                     Timestamp localTimestamp = TimeHelper.utcTimestampToLocalTimestamp(utcTimestamp);
                     cell_data = localTimestamp.toString();
