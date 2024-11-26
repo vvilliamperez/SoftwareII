@@ -4,10 +4,12 @@ package DAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import models.Report;
+import utils.TimeHelper;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 public class ReportDaoImpl {
 
@@ -76,16 +78,27 @@ public class ReportDaoImpl {
         ResultSet scheduleResults = Query.getResult();
         ResultSetMetaData metaData = scheduleResults.getMetaData();
 
+
         // Add data to ObservableList
         int columnCount = metaData.getColumnCount();
         ObservableList<ObservableList<String>> data = FXCollections.observableArrayList();
         while (scheduleResults.next()) {
+            // Convert UTC Timestamps to local Timestamps
             ObservableList<String> row = FXCollections.observableArrayList();
             for (int i = 1; i <= columnCount; i++) {
-                row.add(scheduleResults.getString(i));
+                String cell_data = scheduleResults.getString(i);
+                if (i == 6 || i == 7) {
+                    Timestamp utcTimestamp = scheduleResults.getTimestamp(i);
+                    Timestamp localTimestamp = TimeHelper.utcTimestampToLocalTimestamp(utcTimestamp);
+                    cell_data = localTimestamp.toString();
+                }
+                row.add(cell_data);
             }
             data.add(row);
         }
+
+
+
 
         // Add column names to ObservableList
         ObservableList<String> columnNames = FXCollections.observableArrayList();
@@ -97,6 +110,8 @@ public class ReportDaoImpl {
         DBConnection.closeConnection();
         return report;
     }
+
+
 
     public static Report customerOverviewReport() throws SQLException {
         String sql_statement = ("SELECT \n" +

@@ -26,6 +26,16 @@ public class TimeHelper {
         return Timestamp.valueOf(utcZonedDateTime.toLocalDateTime());
     }
 
+
+    public static Timestamp utcTimestampToLocalTimestamp(Timestamp utcTimestamp) {
+        // Convert the UTC Timestamp to a LocalDateTime
+        LocalDateTime localDateTime = utcTimestamp.toInstant().atOffset(ZoneOffset.UTC).toLocalDateTime();
+        // Convert to a ZonedDateTime in the system's default time zone
+        ZonedDateTime localZonedDateTime = localDateTime.atZone(ZoneId.systemDefault());
+        // Convert to Timestamp
+        return Timestamp.valueOf(localZonedDateTime.toLocalDateTime());
+    }
+
     /**
      * Adds or subtracts a number of periods to a given time based on a selection type
      * @param now The current time
