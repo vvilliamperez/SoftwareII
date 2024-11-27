@@ -171,6 +171,7 @@ public class AppointmentScreen extends BasicScreen {
             }
 
             // Check if appointment time for user is already taken
+            /*
             List<Appointment> appointments_for_user = AppointmentDaoImpl.getAppoitmentsByUser(currentSession.getCurrentUser());
             for (Appointment existing_appoitnemnt: appointments_for_user ){
                 LocalDateTime start_and_end[];
@@ -192,6 +193,7 @@ public class AppointmentScreen extends BasicScreen {
                 }
 
             }
+            */
         } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
             alert.show();
