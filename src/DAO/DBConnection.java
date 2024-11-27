@@ -12,7 +12,8 @@ import java.sql.SQLException;
  */
 public class DBConnection {
     private static final String databaseName="client_schedule";
-    private static final String DB_URL="jdbc:mysql://127.0.0.1:3306/"+databaseName;
+    private static final String parameters="serverTimezone=UTC";
+    private static final String DB_URL="jdbc:mysql://127.0.0.1:3306/"+databaseName+"?"+parameters;
     private static final String username="sqlUser";
     private static final String password="Passw0rd!";
     static Connection conn;
