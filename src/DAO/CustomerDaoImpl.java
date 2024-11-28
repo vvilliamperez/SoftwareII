@@ -37,6 +37,43 @@ public class CustomerDaoImpl {
         return customers;
     }
 
+    public static Customer getCustomerByID(int ID) throws SQLException {
+        DBConnection.makeConnection();
+        String sqlStatement="select * FROM customers WHERE Customer_ID = " + ID + ";";
+        Query.makeQuery(sqlStatement);
+        Customer customer = null;
+        ResultSet result=Query.getResult();
+        while(result.next()){
+            int custID = result.getInt("Customer_ID");
+            String name = result.getString("Customer_Name");
+            String address = result.getString("Address");
+            String postal = result.getString("Postal_Code");
+            String phone = result.getString("Phone");
+            int divisionID = result.getInt("Division_ID");
+            customer = new Customer(custID, name, address, postal, phone, divisionID);
+        }
+        DBConnection.closeConnection();
+        return customer;
+    }
+
+    public static Customer getCustomerByName(String name) throws SQLException {
+        DBConnection.makeConnection();
+        String sqlStatement="select * FROM customers WHERE Customer_Name = '" + name + "';";
+        Query.makeQuery(sqlStatement);
+        Customer customer = null;
+        ResultSet result=Query.getResult();
+        while(result.next()){
+            int custID = result.getInt("Customer_ID");
+            String address = result.getString("Address");
+            String postal = result.getString("Postal_Code");
+            String phone = result.getString("Phone");
+            int divisionID = result.getInt("Division_ID");
+            customer = new Customer(custID, name, address, postal, phone, divisionID);
+        }
+        DBConnection.closeConnection();
+        return customer;
+    }
+
     public static void create(Customer customer) throws SQLException {
         DBConnection.makeConnection();
         //TODO:handle ID

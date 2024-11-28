@@ -20,7 +20,9 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Class for the Appointment Screen
@@ -91,12 +93,20 @@ public class AppointmentScreen extends BasicScreen {
 
     private Appointment currentApt;
 
+    private  Map<Integer, String> customerIdToName = new HashMap<>();
+    private  Map<String, Integer> customerNameToId = new HashMap<>();
+
+    private Map<Integer, String> contactIdToName = new HashMap<>();
+    private Map<String, Integer> contactNameToId = new HashMap<>();
+
     ObservableList<String> hours = FXCollections.observableArrayList();
     ObservableList<String> mins = FXCollections.observableArrayList();
-    ObservableList<Contact> contacts;
+    ObservableList<Contact> contacts = FXCollections.observableArrayList();
     ObservableList<String> contactStrings = FXCollections.observableArrayList();
-    ObservableList<Customer> customers;
+    ObservableList<Customer> customers = FXCollections.observableArrayList();
     ObservableList<String> customerStrings = FXCollections.observableArrayList();
+
+
 
     /**
      * Initializes the Appointment Screen
@@ -146,6 +156,7 @@ public class AppointmentScreen extends BasicScreen {
         // Check if appointment time for customer is already taken
         LocalDateTime currentStart = utcStart.toLocalDateTime();
         LocalDateTime currentEnd = utcEnd.toLocalDateTime();
+
         Customer customer = customers.get(cmbCustomerID.getSelectionModel().getSelectedIndex());
         try {
             List<Appointment> appointments_for_customer = AppointmentDaoImpl.getAppointmentsByCustomer(customer);
@@ -239,26 +250,41 @@ public class AppointmentScreen extends BasicScreen {
         String type = tfType.getText();
 
 
-        // All writes to the database must be in UTC time
-        ZonedDateTime zonedDateTimeStart, zonedDateTimeEnd;
-        zonedDateTimeStart = dateStart.getValue().atTime(Integer.parseInt(cmbStartHr.getValue()), Integer.parseInt(cmbStartMin.getValue())).atZone(ZoneId.systemDefault());
-        zonedDateTimeEnd = dateEnd.getValue().atTime(Integer.parseInt(cmbEndHr.getValue()), Integer.parseInt(cmbEndMin.getValue())).atZone(ZoneId.systemDefault());
-        // Log out zonedDateTimeStart and zonedDateTimeEnd
-        //System.out.println("Start: " + zonedDateTimeStart.toString());
-        //System.out.println("End: " + zonedDateTimeEnd.toString());
+        // Parse the local start and end times from user input
+        ZonedDateTime zonedDateTimeStart = dateStart.getValue()
+                .atTime(Integer.parseInt(cmbStartHr.getValue()), Integer.parseInt(cmbStartMin.getValue()))
+                .atZone(ZoneId.systemDefault());
 
+        ZonedDateTime zonedDateTimeEnd = dateEnd.getValue()
+                .atTime(Integer.parseInt(cmbEndHr.getValue()), Integer.parseInt(cmbEndMin.getValue()))
+                .atZone(ZoneId.systemDefault());
 
+        // Convert the local times to UTC
         ZonedDateTime utcStart = zonedDateTimeStart.withZoneSameInstant(ZoneId.of("UTC"));
         ZonedDateTime utcEnd = zonedDateTimeEnd.withZoneSameInstant(ZoneId.of("UTC"));
 
-        int custID = customers.get(cmbCustomerID.getSelectionModel().getSelectedIndex()).getID();
-        int contID = contacts.get(cmbContact.getSelectionModel().getSelectedIndex()).getID();
+        // Validate start and end times
+        if (utcEnd.isBefore(utcStart) || utcEnd.isEqual(utcStart)) {
+            throw new IllegalArgumentException("End time must be after start time.");
+        }
+
+        // Get IDs for customer, contact, and user
+        int custID = customerNameToId.get(cmbCustomerID.getSelectionModel().getSelectedItem());
+        int contID = contactNameToId.get(cmbContact.getSelectionModel().getSelectedItem());
         int userID = Integer.parseInt(tfUserID.getText());
 
+        // Create the appointment object
         Appointment appointment = new Appointment(
-                apptID,title,desc,location,type,
-                Timestamp.valueOf(utcStart.toLocalDateTime()),Timestamp.valueOf(utcEnd.toLocalDateTime()),
-                custID,userID,contID);
+                apptID, title, desc, location, type,
+                Timestamp.valueOf(utcStart.toLocalDateTime()), // Save as UTC timestamp
+                Timestamp.valueOf(utcEnd.toLocalDateTime()),   // Save as UTC timestamp
+                custID, userID, contID
+        );
+
+        // (Optional) Log UTC times for debugging
+        System.out.println("UTC Start: " + utcStart);
+        System.out.println("UTC End: " + utcEnd);
+
 
         try {
             if (currentApt == null) //new record
@@ -295,13 +321,16 @@ public class AppointmentScreen extends BasicScreen {
     /**
      * Gets the customer ID data
      */
-    private void getCustomerIDData() {
+    private void getCustomerData() {
         try {
-            List<Customer> customersData = CustomerDaoImpl.getAllCustomers();
-            customers = FXCollections.observableArrayList(customersData);
+            customers.setAll(CustomerDaoImpl.getAllCustomers());
+
             for (Customer customer: customers){
+                customerIdToName.put(customer.getID(), customer.getName());
+                customerNameToId.put(customer.getName(), customer.getID());
                 customerStrings.add(customer.getName());
             }
+
             cmbCustomerID.setItems(customerStrings);
         } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
@@ -315,9 +344,10 @@ public class AppointmentScreen extends BasicScreen {
      */
     private void getContactData() {
         try {
-            List<Contact> contactsData = ContactDaoImpl.getAllContacts();
-            contacts = FXCollections.observableArrayList(contactsData);
+            contacts.setAll(ContactDaoImpl.getAllContacts());
             for (Contact contact: contacts){
+                contactIdToName.put(contact.getID(), contact.getName());
+                contactNameToId.put(contact.getName(), contact.getID());
                 contactStrings.add(contact.getName());
             }
             cmbContact.setItems(contactStrings);
@@ -352,7 +382,7 @@ public class AppointmentScreen extends BasicScreen {
     public void update() {
         this.currentApt = currentSession.getCurrentAppointment();
         tfUserID.setText(String.valueOf(currentSession.getCurrentUser().getUID()));
-        getCustomerIDData();
+        getCustomerData();
         getContactData();
         if (currentApt != null) populateAptData();
         setLocale();

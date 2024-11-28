@@ -368,12 +368,37 @@ public class MainScreen extends BasicScreen {
 
         // Display the time in the local time zone
         // The time is stored in UTC
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        colStart.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper(
-                cellData.getValue().getTimeStart().toLocalDateTime().atZone(ZoneId.of("UTC")).withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime().format(formatter)));
-        colEnd.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper(
-                cellData.getValue().getTimeEnd().toLocalDateTime().atZone(ZoneId.of("UTC")).withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime().format(formatter)));
+        colStart.setCellValueFactory(cellData -> {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+            // Assuming the database stores UTC timestamps
+            ZonedDateTime utcTime = cellData.getValue().getTimeStart().toLocalDateTime().atZone(ZoneId.of("UTC"));
+
+            // Convert from UTC to local system time
+            ZonedDateTime localTime = utcTime.withZoneSameInstant(ZoneId.systemDefault());
+
+            // Format the local time for display
+            String formattedTime = localTime.format(formatter);
+
+            return new ReadOnlyObjectWrapper(formattedTime);
+        });
+
+
+        colEnd.setCellValueFactory(cellData -> {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+            // Assuming the database stores UTC timestamps
+            ZonedDateTime utcTime = cellData.getValue().getTimeStart().toLocalDateTime().atZone(ZoneId.of("UTC"));
+
+            // Convert from UTC to local system time
+            ZonedDateTime localTime = utcTime.withZoneSameInstant(ZoneId.systemDefault());
+
+            // Format the local time for display
+            String formattedTime = localTime.format(formatter);
+
+            return new ReadOnlyObjectWrapper(formattedTime);
+        });
 
         col2Id.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getID()));
         col2Name.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getName()));
