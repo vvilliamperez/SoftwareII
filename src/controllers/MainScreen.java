@@ -389,7 +389,7 @@ public class MainScreen extends BasicScreen {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
             // Assuming the database stores UTC timestamps
-            ZonedDateTime utcTime = cellData.getValue().getTimeStart().toLocalDateTime().atZone(ZoneId.of("UTC"));
+            ZonedDateTime utcTime = cellData.getValue().getTimeEnd().toLocalDateTime().atZone(ZoneId.of("UTC"));
 
             // Convert from UTC to local system time
             ZonedDateTime localTime = utcTime.withZoneSameInstant(ZoneId.systemDefault());
