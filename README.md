@@ -4,6 +4,15 @@
 To manage clients and appointments for a fictional company.  
 This project is also submitted as an Objective Assessment for **Software II - Advanced Java Concepts – C195**.
 
+The main concepts here are:
+
+- Database backened with DBO (Database object classes)
+- Timezone Conversions (UTC please!) 
+- JavaFX GUI stuff (modal windows, observables, blah)
+- Object Orientated Principles (dynamic and static stuff) 
+- Model-View-Controller pattern (a tale as old as time)
+
+
 ## Author
 **William Perez**
 
